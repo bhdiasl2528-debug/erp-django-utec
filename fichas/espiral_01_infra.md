@@ -7,9 +7,9 @@
 | **Número de espiral** | 1 |
 | **Nombre del ciclo** | Infraestructura y Configuración Base |
 | **Semanas** | W01 – W03 |
-| **Fecha de inicio** | ___/___/_____ |
-| **Fecha de cierre** | ___/___/_____ |
-| **Responsable** | [Nombre del estudiante] |
+| **Fecha de inicio** | _08__/_10__/_2026____ |
+| **Fecha de cierre** | __12_/__10_/__1016___ |
+| **Responsable** | Brandon     Horacio Dias Lopez |
 | **Asesor** | MC. Román Fernando López González |
 
 ---
@@ -49,3 +49,52 @@ posterior tenga una URL pública verificable desde el inicio del proyecto.
 - [ ] Captura de pantalla: `evidencias/espiral_01/manage_check.png`
 - [ ] Resultado de tests: `Ran 33 tests in X.XXXs — OK`
 - [ ] Commit de cierre:
+---
+
+## 4. Criterios de aceptación verificados
+
+| Criterio | ¿Cumplido? | Evidencia |
+|---|---|---|
+| `manage.py check --deploy` sin warnings críticos | ✅ / | Captura de terminal |
+| URL pública `https://…onrender.com/` → HTTP 200 | ✅ /  | Captura del navegador |
+| Repositorio con ≥ 6 commits en rama `main` | ✅ /  | `git log --oneline` |
+| 33 tests pasando (W01 + W02 + W03) | ✅ /  | Resultado pytest |
+| Ficha Schmelkes E1 completa | ✅ /  | Este documento |
+
+---
+
+## 5. Problemas encontrados y soluciones
+
+| Problema | Causa | Solución aplicada |
+|---|---|---|
+| | | |
+| | | |
+
+---
+
+## 6. Lecciones aprendidas
+
+1.siempre comprobar que funcioe
+2.no saltarse pasos
+3.corroborar que todo este bien
+
+---
+
+## 7. Tiempo total invertido
+
+| Categoría | Horas |
+|---|---|
+| Diseño / planeación | |
+| Implementación | |
+| Pruebas | |
+| Despliegue | |
+| Documentación | |
+| **Total Espiral 1** | |
+
+---
+
+## 8. Conexión con el trabajo recepcional
+
+> Esta espiral aporta evidencia para el **Capítulo 4** (Desarrollo),
+> sección 4.1 "Espiral 1: Infraestructura", y para el
+> **Capítulo 3** (Metodología), subsección "Ciclos del modelo espiral".
