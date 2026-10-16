@@ -100,6 +100,4 @@ cobertura de pruebas ≥ 15 tests de modelo.
 | Rol | Nombre | Fecha | Observaciones |
 |---|---|---|---|
 | Desarrollador | [Tu nombre] | 15/10/2026 | |
-| **Asesor (PO)** | **MC. Román Fernando López González** | ___/___/_____ | Pendiente |
-
-> ⚠️ **La Espiral 2 (W05) no puede iniciar sin la aprobación registrada aquí.**
+| **Asesor (PO)** | **MC. Román Fernando López González** | 16/10/2026 | **Aprobación verbal** — indicó avanzar W04 y W05, revisión conjunta posterior |
