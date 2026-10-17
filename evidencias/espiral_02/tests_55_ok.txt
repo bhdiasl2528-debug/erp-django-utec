@@ -1,0 +1,7 @@
+System check identified no issues (0 silenced).
+C:\Temp_Workspace_ERP\env_erp\Lib\site-packages\django\core\handlers\base.py:61: UserWarning: No directory at: C:\Temp_Workspace_ERP\staticfiles\
+  mw_instance = middleware(adapted_handler)
+----------------------------------------------------------------------
+Ran 55 tests in 0.080s
+
+OK
