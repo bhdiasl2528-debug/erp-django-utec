@@ -1,0 +1,6 @@
+System check identified no issues (0 silenced).
+JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+----------------------------------------------------------------------
+Ran 72 tests in 0.187s
+
+OK
