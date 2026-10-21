@@ -1,9 +1,17 @@
 # proveedores/views.py
-"""Vistas de la app proveedores — W07."""
-from django.views.generic import DetailView, ListView
+"""Vistas de la app proveedores — W07 (lectura) + W08 (escritura)."""
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import (
+    CreateView, DeleteView, DetailView, ListView, UpdateView
+)
 
+from .forms  import ProveedorForm
 from .models import Proveedor
 
+
+# ── W07: Lectura ──────────────────────────────────────────────────────────
 
 class ProveedorListView(ListView):
     """Lista paginada de proveedores activos."""
@@ -26,7 +34,6 @@ class ProveedorDetailView(DetailView):
     pk_url_kwarg        = 'proveedor_id'
 
     def get_context_data(self, **kwargs):
-        """Agrega los productos del proveedor al contexto."""
         ctx = super().get_context_data(**kwargs)
         ctx['productos'] = (
             self.object.productos
@@ -35,3 +42,55 @@ class ProveedorDetailView(DetailView):
             .order_by('nombre')
         )
         return ctx
+
+
+# ── W08: Escritura ────────────────────────────────────────────────────────
+
+class ProveedorCreateView(LoginRequiredMixin, CreateView):
+    """Formulario para crear un proveedor."""
+
+    model         = Proveedor
+    form_class    = ProveedorForm
+    template_name = 'proveedores/crear.html'
+    success_url   = reverse_lazy('proveedores:lista')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request,
+            f'Proveedor "{self.object.nombre}" creado exitosamente.'
+        )
+        return response
+
+
+class ProveedorUpdateView(LoginRequiredMixin, UpdateView):
+    """Formulario para editar un proveedor."""
+
+    model         = Proveedor
+    form_class    = ProveedorForm
+    template_name = 'proveedores/editar.html'
+    pk_url_kwarg  = 'proveedor_id'
+    success_url   = reverse_lazy('proveedores:lista')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request,
+            f'Proveedor "{self.object.nombre}" actualizado.'
+        )
+        return response
+
+
+class ProveedorDeleteView(LoginRequiredMixin, DeleteView):
+    """Confirmación y borrado de un proveedor."""
+
+    model         = Proveedor
+    template_name = 'proveedores/eliminar.html'
+    pk_url_kwarg  = 'proveedor_id'
+    success_url   = reverse_lazy('proveedores:lista')
+
+    def form_valid(self, form):
+        nombre   = self.object.nombre
+        response = super().form_valid(form)
+        messages.success(self.request, f'Proveedor "{nombre}" eliminado.')
+        return response

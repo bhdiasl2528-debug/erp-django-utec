@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 3rem auto;">
+    <div class="erp-card">
+        <div class="erp-card-header" style="text-align: center;">Iniciar Sesión</div>
+        <form method="post" style="margin-top: 1rem;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button type="submit" class="btn-erp-gold" style="width: 100%;">Entrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

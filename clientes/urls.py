@@ -1,5 +1,5 @@
 # clientes/urls.py
-"""URLs de la app clientes — W07 (Lista + Detalle)."""
+"""URLs de la app clientes — W08 (CRUD completo)."""
 from django.urls import path
 from . import views
 
@@ -12,4 +12,13 @@ urlpatterns = [
     path('<int:cliente_id>/',
          views.ClienteDetailView.as_view(),
          name='detalle'),
+    path('nuevo/',
+         views.ClienteCreateView.as_view(),
+         name='crear'),
+    path('<int:cliente_id>/editar/',
+         views.ClienteUpdateView.as_view(),
+         name='editar'),
+    path('<int:cliente_id>/eliminar/',
+         views.ClienteDeleteView.as_view(),
+         name='eliminar'),
 ]
