@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Inicio - ERP Django{% endblock %}
+
+{% block content %}
+<div style="text-align:center; margin-top: 2rem; margin-bottom: 3rem;">
+    <h2 style="color: var(--clr-navy); font-size: 2.2rem; font-weight: 700;">ERP Django</h2>
+    <p style="color: var(--clr-muted); font-size: 1.1rem;">Sistema de gestión empresarial · UTEC Celaya · Espiral 1 W02</p>
+    
+    <div style="display:flex; gap: 0.8rem; justify-content:center; margin-top: 1.5rem;">
+        <span class="badge-erp-active" style="font-weight:600; padding: 0.5rem 1rem; border-radius: 20px;">Django 4.2 LTS</span>
+        <span class="badge-erp-active" style="font-weight:600; padding: 0.5rem 1rem; border-radius: 20px;">Python 3.11</span>
+        <span class="badge-erp-active" style="font-weight:600; padding: 0.5rem 1rem; border-radius: 20px;">Fable 5 AzulERP</span>
+    </div>
+</div>
+
+<div class="erp-modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+    {% for m in modulos %}
+    <a href="{% url m.url %}" class="erp-module-card" style="text-decoration: none; color: inherit; display: block;">
+        <div class="erp-card" style="padding: 2.5rem 1.5rem; text-align: center; border-radius: 12px; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid var(--clr-border);">
+            <div style="font-size: 3.5rem; margin-bottom: 1.2rem;">{{ m.icono }}</div>
+            <h3 style="color: var(--clr-navy); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem;">{{ m.titulo }}</h3>
+            <p style="color: var(--clr-muted); font-size: 0.95rem;">{{ m.descripcion }}</p>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<style>
+    .erp-module-card:hover .erp-card {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border-color: var(--clr-gold);
+    }
+</style>
+{% endblock %}

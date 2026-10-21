@@ -1,57 +1,48 @@
 # core/views.py
-"""Vistas principales del proyecto ERP — W02.
-
-Migración: HttpResponse → render() con templates y contexto.
-"""
+"""Vistas de la app core — Página de inicio y bienvenida."""
 from django.shortcuts import render
-from django.urls import reverse
 
 
 def bienvenida(request):
-    """Página de inicio del ERP con tarjetas de módulos.
-
-    Context:
-        modulos (list): Lista de dicts con icono, nombre, url y descripcion.
-
-    Returns:
-        HttpResponse con template bienvenida.html.
-    """
+    """Página de inicio del ERP con tarjetas a los módulos principales."""
     modulos = [
         {
-            'nombre': 'Productos',
-            'icono': '📦',
-            'url': reverse('productos:inicio'),
+            'titulo': 'Productos',
             'descripcion': 'Inventario, precios y stock',
+            'icono': '📦',
+            'url': 'productos:lista',
         },
         {
-            'nombre': 'Clientes',
-            'icono': '👥',
-            'url': reverse('clientes:inicio'),
+            'titulo': 'Clientes',
             'descripcion': 'Cartera y gestión de clientes',
+            'icono': '👥',
+            'url': 'clientes:lista',
         },
         {
-            'nombre': 'Proveedores',
-            'icono': '🏭',
-            'url': reverse('proveedores:inicio'),
+            'titulo': 'Proveedores',
             'descripcion': 'Red de proveedores',
+            'icono': '🏭',
+            'url': 'proveedores:lista',
         },
         {
-            'nombre': 'Ventas',
-            'icono': '💰',
-            'url': reverse('ventas:inicio'),
+            'titulo': 'Ventas',
             'descripcion': 'Pedidos, facturas y cobros',
+            'icono': '💰',
+            'url': 'ventas:lista',
         },
         {
-            'nombre': 'Reportes',
-            'icono': '📊',
-            'url': reverse('reportes:inicio'),
+            'titulo': 'Reportes',
             'descripcion': 'Dashboard y analítica',
+            'icono': '📊',
+            'url': 'admin:index',
         },
         {
-            'nombre': 'Admin',
-            'icono': '⚙️',
-            'url': '/admin/',
+            'titulo': 'Admin',
             'descripcion': 'Panel de administración Django',
+            'icono': '⚙️',
+            'url': 'admin:index',
         },
     ]
-    return render(request, 'bienvenida.html', {'modulos': modulos})
+    
+    # Usamos 'base.html' como plantilla de respaldo para que no falle
+    return render(request, 'index.html', {'modulos': modulos})
