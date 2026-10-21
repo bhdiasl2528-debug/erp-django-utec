@@ -23,12 +23,8 @@ SECRET_KEY    = env('SECRET_KEY', default='dev-key-insegura-solo-para-desarrollo
 DEBUG         = env('DEBUG', default=True)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
-
 # ── Apps instaladas ───────────────────────────────────────────────────────
 INSTALLED_APPS = [
-    # Jazzmin PRIMERO — debe ir antes de django.contrib.admin
-    'jazzmin',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +43,9 @@ INSTALLED_APPS = [
     'configuracion',
 ]
 
+# Solo cargar Jazzmin en desarrollo (local), no en producción (Render)
+if DEBUG:
+    INSTALLED_APPS.insert(0, 'jazzmin')
 
 # ── Middleware ────────────────────────────────────────────────────────────
 MIDDLEWARE = [
@@ -62,8 +61,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
-
-# ── Templates ─────────────────────────────────────────────────────────────
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -82,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # ── Base de datos ─────────────────────────────────────────────────────────
 DATABASES = {
     'default': {
@@ -90,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # ── Validación de contraseñas ─────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
@@ -100,33 +95,29 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # ── Internacionalización ──────────────────────────────────────────────────
 LANGUAGE_CODE = 'es-mx'
 TIME_ZONE     = 'America/Mexico_City'
 USE_I18N      = True
 USE_TZ        = True
 
-
 # ── Archivos estáticos ────────────────────────────────────────────────────
-STATIC_URL  = '/static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# WhiteNoise: en desarrollo usa storage normal, en producción usa Manifest
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# WhiteNoise: en desarrollo usa storage normal, en producción comprime
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-STATICFILES_DIRS = [BASE_DIR / 'static']
-
 # ── Archivos media ────────────────────────────────────────────────────────
-MEDIA_URL  = '/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 # ── Autenticación ─────────────────────────────────────────────────────────
 LOGIN_URL           = '/accounts/login/'
 LOGIN_REDIRECT_URL  = '/productos/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 # ── Django REST Framework ─────────────────────────────────────────────────
 REST_FRAMEWORK = {
@@ -135,45 +126,31 @@ REST_FRAMEWORK = {
     ],
 }
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ── JAZZMIN — Personalización del admin con Fable 5 AzulERP ───────────────
 JAZZMIN_SETTINGS = {
-    # Identidad
     'site_title':       'ERP Django',
     'site_header':      'ERP UTEC Celaya',
     'site_brand':       '📦 ERP Django',
     'welcome_sign':     'Bienvenido al Sistema ERP · UTEC Celaya',
     'copyright':        'MC. Román Fernando López González · UTEC Celaya',
-
-    # Icono del sitio (usar emoji como fallback)
     'site_icon':        None,
     'site_logo':        None,
-
-    # Búsqueda global en el admin
     'search_model':     ['clientes.Cliente', 'productos.Producto'],
-
-    # Menú superior (top navigation)
     'topmenu_links': [
         {'name': 'Inicio ERP',   'url': '/', 'new_window': False},
         {'name': 'Productos',    'url': '/productos/'},
         {'name': 'Clientes',     'url': '/clientes/'},
         {'name': 'Ventas',       'url': '/ventas/'},
     ],
-
-    # Menú de usuario (avatar)
     'usermenu_links': [
         {'name': 'Ver ERP', 'url': '/', 'new_window': False},
     ],
-
-    # Menú lateral: orden de apps y modelos
     'order_with_respect_to': [
         'clientes', 'proveedores', 'productos',
         'ventas', 'configuracion', 'auth',
     ],
-
-    # Iconos de Font Awesome para cada modelo
     'icons': {
         'auth':                       'fas fa-users-cog',
         'auth.user':                  'fas fa-user',
@@ -189,16 +166,12 @@ JAZZMIN_SETTINGS = {
     },
     'default_icon_parents': 'fas fa-folder',
     'default_icon_children': 'fas fa-circle',
-
-    # Apariencia
     'related_modal_active':     True,
     'custom_css':               'erp_custom.css',
     'show_sidebar':             True,
     'navigation_expanded':      True,
     'hide_apps':                [],
     'hide_models':              [],
-
-    # UI tweaks
     'changeform_format':        'horizontal_tabs',
     'language_chooser':         False,
 }
@@ -224,7 +197,6 @@ JAZZMIN_UI_TWEAKS = {
     'sidebar_nav_legacy_style': False,
     'sidebar_nav_flat_style':   False,
     'theme':                    'default',
-    #'dark_mode_theme':          None,
     'button_classes': {
         'primary':   'btn-primary',
         'secondary': 'btn-secondary',
