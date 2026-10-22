@@ -1,54 +1,136 @@
-/* static/erp_custom.css
-   Utilidades adicionales de Fable 5 AzulERP.
-   Las variables CSS principales están definidas en base.html.
-*/
+/* ── DL SHOES · Admin Jazzmin — Negro / Gris / Blanco ──────────────────── */
 
-/* Tarjetas clicables en la bienvenida */
-.erp-module-card {
-    transition: transform .2s, box-shadow .2s;
-    cursor: pointer;
-}
-.erp-module-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
+:root {
+    --dl-ink:    #0F0F10;
+    --dl-char:   #1C1C1E;
+    --dl-gray:   #3A3A3C;
+    --dl-silver: #8E8E93;
+    --dl-light:  #F2F2F7;
+    --dl-white:  #FFFFFF;
+    --dl-gold:   #C0A062;
 }
 
-/* Utilidades de color */
-.text-gold   { color: var(--clr-gold)  !important; }
-.text-navy   { color: var(--clr-navy)  !important; }
-.bg-navy     { background: var(--clr-navy) !important; }
-.border-gold { border-color: var(--clr-gold) !important; }
-
-/* Código monoespaciado */
-.font-mono {
-    font-family: 'JetBrains Mono', Consolas, monospace !important;
-    font-size: .9em;
+/* Sidebar negro */
+.main-sidebar,
+.main-sidebar .brand-link,
+.nav-sidebar {
+    background-color: var(--dl-ink) !important;
 }
 
-/* ── JAZZMIN: Override de colores con Fable 5 AzulERP ─────────────────── */
+/* Brand (logo arriba a la izquierda) */
+.brand-link {
+    background-color: var(--dl-ink) !important;
+    border-bottom: 1px solid var(--dl-gray) !important;
+}
+.brand-link .brand-text {
+    color: var(--dl-white) !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+}
 
-/* Sidebar color navy */
-.main-sidebar, .sidebar { background-color: #0A2342 !important; }
-
-/* Navbar color navy */
-.main-header.navbar { background-color: #0A2342 !important; }
-
-/* Brand / logo area */
-.brand-link { border-bottom: 1px solid #B8860B !important; }
-.brand-text  { color: #D4AF37 !important; font-weight: 700 !important; }
-
-/* Sidebar links */
-.nav-sidebar .nav-link { color: rgba(255,255,255,.82) !important; }
-.nav-sidebar .nav-link:hover,
+/* Links del sidebar */
+.nav-sidebar .nav-link {
+    color: var(--dl-silver) !important;
+    border-radius: 6px;
+    margin: 2px 8px;
+}
+.nav-sidebar .nav-link:hover {
+    background-color: var(--dl-char) !important;
+    color: var(--dl-white) !important;
+}
 .nav-sidebar .nav-link.active {
-    background-color: #1B4F8A !important;
-    color: #FFFFFF !important;
+    background-color: var(--dl-gold) !important;
+    color: var(--dl-ink) !important;
+    font-weight: 700;
+}
+.nav-sidebar .nav-link i.nav-icon {
+    color: var(--dl-silver) !important;
+}
+.nav-sidebar .nav-link.active i.nav-icon {
+    color: var(--dl-ink) !important;
 }
 
-/* Accent: botones y badges en dorado */
-.accent-navy .nav-sidebar .nav-link.active {
-    background-color: #B8860B !important;
+/* Navbar superior */
+.main-header.navbar {
+    background-color: var(--dl-ink) !important;
+    border-bottom: 1px solid var(--dl-gray) !important;
+}
+
+/* Botones del admin */
+.btn-primary {
+    background-color: var(--dl-ink) !important;
+    border-color: var(--dl-ink) !important;
+    color: var(--dl-white) !important;
+    font-weight: 600;
+}
+.btn-primary:hover {
+    background-color: var(--dl-gray) !important;
+    border-color: var(--dl-gray) !important;
+}
+
+.btn-success {
+    background-color: var(--dl-gold) !important;
+    border-color: var(--dl-gold) !important;
+    color: var(--dl-ink) !important;
+    font-weight: 600;
+}
+.btn-success:hover {
+    background-color: #D4B478 !important;
+    border-color: #D4B478 !important;
+}
+
+.btn-danger {
+    background-color: #C62828 !important;
+    border-color: #C62828 !important;
+}
+
+/* Tablas del admin */
+table.dataTable thead th {
+    background-color: var(--dl-ink) !important;
+    color: var(--dl-white) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: var(--dl-light) !important;
+}
+
+/* Cards de la pantalla de inicio del admin */
+.card {
+    border: 1px solid var(--dl-light) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+
+.card-header {
+    background-color: var(--dl-ink) !important;
+    color: var(--dl-white) !important;
+    font-weight: 600;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Títulos */
+h1, h2, h3, h4 {
+    color: var(--dl-ink) !important;
+    font-weight: 700;
+    letter-spacing: -0.3px;
 }
 
 /* Footer */
-.main-footer { border-top: 2px solid #B8860B; }
+.main-footer {
+    background-color: var(--dl-ink) !important;
+    color: var(--dl-silver) !important;
+    border-top: 1px solid var(--dl-gray) !important;
+    letter-spacing: 0.3px;
+}
+
+/* Inputs */
+.form-control {
+    border: 1px solid var(--dl-light) !important;
+    border-radius: 8px !important;
+}
+.form-control:focus {
+    border-color: var(--dl-ink) !important;
+    box-shadow: 0 0 0 3px rgba(15,15,16,0.08) !important;
+}
