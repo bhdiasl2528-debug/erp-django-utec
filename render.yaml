@@ -13,9 +13,7 @@ services:
     python manage.py collectstatic --no-input
     python manage.py migrate
     python manage.py crear_grupos
-    startCommand: gunicorn core.wsgi --workers 2 --timeout 120 --log-file -
-    healthCheckPath: /
-    envVars:
+    python crear_sitio.py
       - key: DJANGO_SETTINGS_MODULE
         value: core.settings_prod
       - key: SECRET_KEY
