@@ -1,18 +1,19 @@
 """
 Django settings for core project — ERP UTEC Celaya.
 Guía de Laboratorio W01 · Espiral 1 · Sprint 0
+Actualizado W09: allauth + RBAC
 
 Modified from default startproject settings to include:
 - 5 apps del ERP (clientes, proveedores, productos, ventas, reportes)
 - django-environ para leer .env
 - WhiteNoise para servir estáticos
+- django-allauth para autenticación
 - Configuración regional es-MX / America/Mexico_City
 """
 
 import environ
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ── Variables de entorno ──────────────────────────────────────────────────
@@ -25,17 +26,24 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 # ── Apps instaladas ───────────────────────────────────────────────────────
 INSTALLED_APPS = [
-        'jazzmin',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     # Terceros
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'rest_framework',
     'whitenoise.runserver_nostatic',
+
     # Apps del ERP
+    'core',                 # ← AGREGAR ESTA LÍNEA
     'clientes',
     'proveedores',
     'productos',
@@ -54,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',   # agregado W09
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -103,7 +112,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# WhiteNoise: en desarrollo usa storage normal, en producción comprime
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
@@ -124,86 +132,24 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# ── JAZZMIN — Personalización del admin con Fable 5 AzulERP ───────────────
-JAZZMIN_SETTINGS = {
-    'site_title':       'ERP Django',
-    'site_header':      'ERP UTEC Celaya',
-    'site_brand':       '📦 ERP Django',
-    'welcome_sign':     'Bienvenido al Sistema ERP · UTEC Celaya',
-    'copyright':        'MC. Román Fernando López González · UTEC Celaya',
-    'site_icon':        None,
-    'site_logo':        None,
-    'search_model':     ['clientes.Cliente', 'productos.Producto'],
-    'topmenu_links': [
-        {'name': 'Inicio ERP',   'url': '/', 'new_window': False},
-        {'name': 'Productos',    'url': '/productos/'},
-        {'name': 'Clientes',     'url': '/clientes/'},
-        {'name': 'Ventas',       'url': '/ventas/'},
-    ],
-    'usermenu_links': [
-        {'name': 'Ver ERP', 'url': '/', 'new_window': False},
-    ],
-    'order_with_respect_to': [
-        'clientes', 'proveedores', 'productos',
-        'ventas', 'configuracion', 'auth',
-    ],
-    'icons': {
-        'auth':                       'fas fa-users-cog',
-        'auth.user':                  'fas fa-user',
-        'auth.Group':                 'fas fa-users',
-        'clientes.Cliente':           'fas fa-user-tie',
-        'proveedores.Proveedor':      'fas fa-truck',
-        'productos.Categoria':        'fas fa-tags',
-        'productos.Producto':         'fas fa-box',
-        'ventas.Venta':               'fas fa-file-invoice-dollar',
-        'ventas.DetalleVenta':        'fas fa-list',
-        'ventas.Pedido':              'fas fa-shopping-cart',
-        'configuracion.ConfiguracionERP': 'fas fa-cogs',
-    },
-    'default_icon_parents': 'fas fa-folder',
-    'default_icon_children': 'fas fa-circle',
-    'related_modal_active':     True,
-    'custom_css':               'erp_custom.css',
-    'show_sidebar':             True,
-    'navigation_expanded':      True,
-    'hide_apps':                [],
-    'hide_models':              [],
-    'changeform_format':        'horizontal_tabs',
-    'language_chooser':         False,
-}
 
-JAZZMIN_UI_TWEAKS = {
-    'navbar_small_text':        False,
-    'footer_small_text':        False,
-    'body_small_text':          False,
-    'brand_small_text':         False,
-    'brand_colour':             'navbar-dark',
-    'accent':                   'accent-navy',
-    'navbar':                   'navbar-dark',
-    'no_navbar_border':         False,
-    'navbar_fixed':             True,
-    'layout_boxed':             False,
-    'footer_fixed':             False,
-    'sidebar_fixed':            True,
-    'sidebar':                  'sidebar-dark-navy',
-    'sidebar_nav_small_text':   False,
-    'sidebar_disable_expand':   False,
-    'sidebar_nav_child_indent': True,
-    'sidebar_nav_compact_style': False,
-    'sidebar_nav_legacy_style': False,
-    'sidebar_nav_flat_style':   False,
-    'theme':                    'default',
-    'button_classes': {
-        'primary':   'btn-primary',
-        'secondary': 'btn-secondary',
-        'info':      'btn-info',
-        'warning':   'btn-warning',
-        'danger':    'btn-danger',
-        'success':   'btn-success',
-    },
-}
+# ── DJANGO SITES (requerido por allauth) ──────────────────────────────────
+SITE_ID = 1
 
-# ── JAZZMIN — Personalización del admin con Fable 5 AzulERP ───────────────
+# ── AUTHENTICATION BACKENDS ───────────────────────────────────────────────
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# ── ALLAUTH: configuración para desarrollo académico ──────────────────────
+ACCOUNT_LOGIN_METHODS          = {'username'}
+ACCOUNT_EMAIL_REQUIRED         = False
+ACCOUNT_EMAIL_VERIFICATION     = 'none'
+ACCOUNT_LOGOUT_ON_GET          = True
+ACCOUNT_SESSION_REMEMBER       = True
+
+# ── JAZZMIN ───────────────────────────────────────────────────────────────
 JAZZMIN_SETTINGS = {
     'site_title':       'ERP Django',
     'site_header':      'ERP UTEC Celaya',

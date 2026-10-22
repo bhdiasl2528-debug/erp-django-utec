@@ -1,7 +1,7 @@
 # clientes/views.py
-"""Vistas de la app clientes — W07 (lectura) + W08 (escritura)."""
+"""Vistas de la app clientes — W07 + W08 + W09 (RBAC)."""
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -11,11 +11,7 @@ from .forms  import ClienteForm
 from .models import Cliente
 
 
-# ── W07: Lectura ──────────────────────────────────────────────────────────
-
 class ClienteListView(ListView):
-    """Lista paginada de clientes activos."""
-
     model               = Cliente
     template_name       = 'clientes/lista.html'
     context_object_name = 'clientes'
@@ -26,8 +22,6 @@ class ClienteListView(ListView):
 
 
 class ClienteDetailView(DetailView):
-    """Detalle de un cliente con su historial de ventas."""
-
     model               = Cliente
     template_name       = 'clientes/detalle.html'
     context_object_name = 'cliente'
@@ -35,18 +29,11 @@ class ClienteDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['ventas'] = (
-            self.object.ventas
-            .order_by('-fecha')[:10]
-        )
+        ctx['ventas'] = self.object.ventas.order_by('-fecha')[:10]
         return ctx
 
 
-# ── W08: Escritura ────────────────────────────────────────────────────────
-
 class ClienteCreateView(LoginRequiredMixin, CreateView):
-    """Formulario para crear un nuevo cliente."""
-
     model         = Cliente
     form_class    = ClienteForm
     template_name = 'clientes/crear.html'
@@ -62,8 +49,6 @@ class ClienteCreateView(LoginRequiredMixin, CreateView):
 
 
 class ClienteUpdateView(LoginRequiredMixin, UpdateView):
-    """Formulario para editar un cliente existente."""
-
     model         = Cliente
     form_class    = ClienteForm
     template_name = 'clientes/editar.html'
@@ -79,13 +64,15 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
 
-class ClienteDeleteView(LoginRequiredMixin, DeleteView):
-    """Confirmación y borrado de un cliente."""
+class ClienteDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    """Borrado de cliente — requiere 'clientes.delete_cliente'."""
 
-    model         = Cliente
-    template_name = 'clientes/eliminar.html'
-    pk_url_kwarg  = 'cliente_id'
-    success_url   = reverse_lazy('clientes:lista')
+    model               = Cliente
+    template_name       = 'clientes/eliminar.html'
+    pk_url_kwarg        = 'cliente_id'
+    success_url         = reverse_lazy('clientes:lista')
+    permission_required = 'clientes.delete_cliente'
+    raise_exception     = True
 
     def form_valid(self, form):
         nombre   = self.object.nombre
