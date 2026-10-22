@@ -13,7 +13,7 @@ services:
     python manage.py collectstatic --no-input
     python manage.py migrate
     python manage.py crear_grupos
-    python crear_sitio.py
+    python manage.py crear_sitio
       - key: DJANGO_SETTINGS_MODULE
         value: core.settings_prod
       - key: SECRET_KEY
