@@ -10,7 +10,6 @@ urlpatterns = [
     path('admin/',       admin.site.urls),
     path('',             views.bienvenida,             name='inicio'),
     # Allauth
-        path('cargar-zapatos/', views.cargar_zapatos_view, name='cargar_zapatos'),
     path('accounts/',    include('allauth.urls')),
     # Apps del ERP
     path('clientes/',    include('clientes.urls',    namespace='clientes')),
