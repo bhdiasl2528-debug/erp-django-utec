@@ -7,19 +7,24 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.MIGRATE_HEADING('\nCargando productos de zapatos...\n'))
+
         # 0. Desactivar (NO borrar) productos que NO sean zapatos
         nombres_zapatos = ['Air Max Roja', 'Classic Blanca', 'Urban Negra', 'Runner Pro Verde', 'Oxford Café']
         otros = Producto.objects.exclude(nombre__in=nombres_zapatos)
         desactivados = otros.update(activo=False)
         if desactivados > 0:
-            self.stdout.write(self.style.SUCCESS(f'  [OK] Desactivados {desactivados} productos no-zapato'))inados[0]} productos no-zapato'))
+            self.stdout.write(self.style.SUCCESS(
+                f'  [OK] Desactivados {desactivados} productos no-zapato'
+            ))
 
         # 1. Limpieza: renombrar 'Runner Pro Azul' a 'Runner Pro Verde' si existe
         azul = Producto.objects.filter(nombre='Runner Pro Azul').first()
         if azul:
             azul.nombre = 'Runner Pro Verde'
             azul.save()
-            self.stdout.write(self.style.SUCCESS('  [OK] Renombrado: Runner Pro Azul -> Runner Pro Verde'))
+            self.stdout.write(self.style.SUCCESS(
+                '  [OK] Renombrado: Runner Pro Azul -> Runner Pro Verde'
+            ))
 
         # 2. Limpieza: eliminar Laptop de Prueba si existe
         laptops = Producto.objects.filter(nombre__icontains='Laptop')
@@ -54,8 +59,12 @@ class Command(BaseCommand):
             )
             if created:
                 creados += 1
-                self.stdout.write(self.style.SUCCESS(f'  [OK] Creado: {prod.nombre} (${prod.precio})'))
+                self.stdout.write(self.style.SUCCESS(
+                    f'  [OK] Creado: {prod.nombre} (${prod.precio})'
+                ))
             else:
                 self.stdout.write(self.style.WARNING(f'  [INFO] Ya existía: {prod.nombre}'))
 
-        self.stdout.write(self.style.SUCCESS(f'\n[OK] {creados} productos nuevos cargados exitosamente.\n'))
+        self.stdout.write(self.style.SUCCESS(
+            f'\n[OK] {creados} productos nuevos cargados exitosamente.\n'
+        ))
