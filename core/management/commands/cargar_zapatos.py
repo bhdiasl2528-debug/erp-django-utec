@@ -8,6 +8,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(self.style.MIGRATE_HEADING('\nCargando productos de zapatos...\n'))
 
+        # 0. Eliminar productos que NO sean zapatos
+        nombres_zapatos = ['Air Max Roja', 'Classic Blanca', 'Urban Negra', 'Runner Pro Verde', 'Oxford Café']
+        eliminados = Producto.objects.exclude(nombre__in=nombres_zapatos).delete()
+        if eliminados[0] > 0:
+            self.stdout.write(self.style.SUCCESS(f'  [OK] Eliminados {eliminados[0]} productos no-zapato'))
+
         # 1. Limpieza: renombrar 'Runner Pro Azul' a 'Runner Pro Verde' si existe
         azul = Producto.objects.filter(nombre='Runner Pro Azul').first()
         if azul:
