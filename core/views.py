@@ -27,3 +27,17 @@ def bienvenida(request):
         'modulos': modulos,
         'productos_destacados': productos_destacados,
     })
+
+
+def cargar_zapatos_view(request):
+    """Vista temporal para cargar productos de zapatos en producción."""
+    from django.core.management import call_command
+    from io import StringIO
+    from django.http import HttpResponse
+
+    out = StringIO()
+    try:
+        call_command('cargar_zapatos', stdout=out)
+        return HttpResponse(f"<pre>{out.getvalue()}</pre>")
+    except Exception as e:
+        return HttpResponse(f"<pre>ERROR: {e}</pre>")
