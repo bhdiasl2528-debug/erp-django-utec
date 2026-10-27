@@ -2,90 +2,82 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<section style="text-align: center; padding: 4rem 1rem 5rem; position: relative;">
-    <div style="font-size: 6rem; margin-bottom: 2rem;
-                filter: grayscale(1) brightness(2);
-                animation: floatShoe 3s ease-in-out infinite;">
-        👟
-    </div>
-
-    <h1 style="font-family: 'Bebas Neue', sans-serif;
-               font-size: 5.5rem; font-weight: 400;
-               color: var(--dl-white); letter-spacing: 12px;
-               line-height: 1; margin-bottom: 1rem;
-               animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);">
-        DL Shoes
-    </h1>
-
-    <p style="font-size: 0.9rem; color: var(--dl-silver);
-              letter-spacing: 8px; text-transform: uppercase;
-              margin-bottom: 3rem; font-weight: 300;
-              animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards;">
-        Premium Footwear · ERP System
-    </p>
-
-    <div style="display:flex; gap: 1rem; justify-content:center; flex-wrap: wrap;
-                animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;">
-        <span style="padding: 0.6rem 1.5rem;
-                     border: 1px solid var(--dl-mid);
-                     font-size: 0.7rem; font-weight: 500;
-                     letter-spacing: 2px; text-transform: uppercase;
-                     color: var(--dl-silver);
-                     transition: all 0.3s;">
-            Django 4.2 LTS
-        </span>
-        <span style="padding: 0.6rem 1.5rem;
-                     border: 1px solid var(--dl-mid);
-                     font-size: 0.7rem; font-weight: 500;
-                     letter-spacing: 2px; text-transform: uppercase;
-                     color: var(--dl-silver);
-                     transition: all 0.3s;">
-            Python 3.11
-        </span>
-        <span style="padding: 0.6rem 1.5rem;
-                     border: 1px solid var(--dl-mid);
-                     font-size: 0.7rem; font-weight: 500;
-                     letter-spacing: 2px; text-transform: uppercase;
-                     color: var(--dl-silver);
-                     transition: all 0.3s;">
-            PostgreSQL
-        </span>
-    </div>
-</section>
-
 <style>
+    /* ── ESTILOS DE LA PÁGINA DE INICIO ── */
+    .hero-section {
+        text-align: center;
+        padding: 4rem 1rem 6rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-shoe {
+        font-size: 6rem;
+        margin-bottom: 2rem;
+        filter: grayscale(1) brightness(2);
+        display: inline-block;
+        animation: floatShoe 3s ease-in-out infinite;
+    }
     @keyframes floatShoe {
         0%, 100% { transform: translateY(0); }
         50%      { transform: translateY(-20px); }
     }
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to   { opacity: 1; transform: translateY(0); }
+    .hero-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 6rem;
+        font-weight: 400;
+        color: var(--dl-white);
+        letter-spacing: 14px;
+        line-height: 1;
+        margin-bottom: 1rem;
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hero-subtitle {
+        font-size: 0.85rem;
+        color: var(--dl-silver);
+        letter-spacing: 10px;
+        text-transform: uppercase;
+        margin-bottom: 3rem;
+        font-weight: 300;
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards;
+    }
+    .hero-badges {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+    }
+    .hero-badge {
+        padding: 0.6rem 1.5rem;
+        border: 1px solid var(--dl-mid);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--dl-silver);
     }
 
+    /* ── TARJETAS PRINCIPALES ── */
     .module-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 1.5rem;
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 0 auto;
+        padding: 0 2rem 4rem;
     }
-
     .module-card {
         text-decoration: none;
         color: inherit;
         display: block;
-        padding: 3rem 2rem;
         background: var(--dl-char);
         border: 1px solid var(--dl-mid);
-        text-align: center;
         position: relative;
         overflow: hidden;
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+        text-align: center;
     }
-
     .module-card:nth-child(1) { animation-delay: 0.3s; }
     .module-card:nth-child(2) { animation-delay: 0.4s; }
     .module-card:nth-child(3) { animation-delay: 0.5s; }
@@ -100,8 +92,8 @@
         background: linear-gradient(135deg, transparent 0%, rgba(192, 160, 98, 0.08) 100%);
         opacity: 0;
         transition: opacity 0.5s;
+        z-index: 2;
     }
-
     .module-card::after {
         content: '';
         position: absolute;
@@ -111,92 +103,274 @@
         height: 2px;
         background: var(--dl-gold);
         transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 3;
     }
-
     .module-card:hover {
-        transform: translateY(-8px);
+        transform: translateY(-10px);
         border-color: var(--dl-gold);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    .module-card:hover::before { opacity: 1; }
+    .module-card:hover::after  { width: 100%; }
+
+    .module-icon {
+        font-size: 5rem;
+        padding: 3rem 0 1rem;
+        filter: grayscale(1) brightness(1.5);
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .module-card:hover .module-icon {
+        transform: scale(1.15) rotate(-8deg);
+        filter: grayscale(0.5) brightness(1.8) sepia(0.3);
     }
 
-    .module-card:hover::before {
-        opacity: 1;
+    .module-body {
+        padding: 0 1.5rem 2rem;
+        position: relative;
+        z-index: 2;
     }
-
-    .module-card:hover::after {
-        width: 100%;
-    }
-
-    .module-card .icon {
-        font-size: 3rem;
-        margin-bottom: 1.5rem;
-        display: inline-block;
-        filter: grayscale(1) brightness(2);
-        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .module-card:hover .icon {
-        transform: scale(1.2) rotate(-8deg);
-        filter: grayscale(0.5) brightness(2) sepia(0.3);
-    }
-
     .module-card h3 {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 1.75rem;
+        font-size: 1.85rem;
         font-weight: 400;
-        letter-spacing: 4px;
+        letter-spacing: 5px;
         color: var(--dl-white);
         margin-bottom: 0.5rem;
         transition: color 0.3s;
     }
-
-    .module-card:hover h3 {
-        color: var(--dl-gold);
-    }
-
+    .module-card:hover h3 { color: var(--dl-gold); }
     .module-card p {
         color: var(--dl-silver);
-        font-size: 0.8rem;
-        letter-spacing: 1px;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
         text-transform: uppercase;
         font-weight: 300;
     }
+
+    /* ── SECCIÓN PRODUCTOS DESTACADOS ── */
+    .featured-section {
+        padding: 5rem 2rem;
+        border-top: 1px solid var(--dl-mid);
+        background: linear-gradient(180deg, var(--dl-black) 0%, var(--dl-ink) 100%);
+    }
+    .featured-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3.5rem;
+        text-align: center;
+        letter-spacing: 8px;
+        color: var(--dl-white);
+        margin-bottom: 0.5rem;
+    }
+    .featured-subtitle {
+        text-align: center;
+        color: var(--dl-silver);
+        font-size: 0.75rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 3.5rem;
+    }
+    .featured-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    .product-card {
+        background: var(--dl-char);
+        border: 1px solid var(--dl-mid);
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        cursor: pointer;
+    }
+    .product-card::before {
+        content: 'NUEVO';
+        position: absolute;
+        top: 1rem; left: 1rem;
+        background: var(--dl-gold);
+        color: var(--dl-black);
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 0.35rem 0.75rem;
+        z-index: 3;
+    }
+    .product-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--dl-gold);
+        box-shadow: 0 20px 40px rgba(192, 160, 98, 0.15);
+    }
+    .product-img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        filter: grayscale(1) brightness(0.9);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        display: block;
+    }
+    .product-card:hover .product-img {
+        filter: grayscale(0) brightness(1);
+        transform: scale(1.05);
+    }
+    .product-info {
+        padding: 1.5rem;
+        background: var(--dl-char);
+    }
+    .product-name {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+        color: var(--dl-white);
+        margin-bottom: 0.5rem;
+    }
+    .product-price {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--dl-gold);
+        margin-bottom: 1rem;
+    }
+    .product-price small {
+        font-size: 0.7rem;
+        color: var(--dl-silver);
+        font-weight: 400;
+        letter-spacing: 1px;
+        margin-left: 0.5rem;
+    }
+    .product-btn {
+        display: block;
+        text-align: center;
+        padding: 0.85rem;
+        background: transparent;
+        border: 1px solid var(--dl-gold);
+        color: var(--dl-gold);
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+    .product-btn:hover {
+        background: var(--dl-gold);
+        color: var(--dl-black);
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
 </style>
 
+<!-- HERO -->
+<section class="hero-section">
+    <div class="hero-shoe">👟</div>
+    <h1 class="hero-title">DL SHOES</h1>
+    <p class="hero-subtitle">Premium Footwear · ERP System</p>
+    <div class="hero-badges">
+        <span class="hero-badge">Django 4.2 LTS</span>
+        <span class="hero-badge">Python 3.11</span>
+        <span class="hero-badge">PostgreSQL</span>
+    </div>
+</section>
+
+<!-- 6 TARJETAS PRINCIPALES -->
 <div class="module-grid">
     <a href="{% url 'productos:lista' %}" class="module-card">
-        <div class="icon">👟</div>
-        <h3>Catálogo</h3>
-        <p>Inventario de zapatos</p>
+        <span class="module-icon">👟</span>
+        <div class="module-body">
+            <h3>CATÁLOGO</h3>
+            <p>Inventario de zapatos</p>
+        </div>
     </a>
 
     <a href="{% url 'clientes:lista' %}" class="module-card">
-        <div class="icon">👥</div>
-        <h3>Clientes</h3>
-        <p>Cartera de clientes</p>
+        <span class="module-icon">👥</span>
+        <div class="module-body">
+            <h3>CLIENTES</h3>
+            <p>Cartera de clientes</p>
+        </div>
     </a>
 
     <a href="{% url 'proveedores:lista' %}" class="module-card">
-        <div class="icon">🏭</div>
-        <h3>Proveedores</h3>
-        <p>Fabricantes y distribuidores</p>
+        <span class="module-icon">🏭</span>
+        <div class="module-body">
+            <h3>PROVEEDORES</h3>
+            <p>Fabricantes y distribuidores</p>
+        </div>
     </a>
 
     <a href="{% url 'ventas:lista' %}" class="module-card">
-        <div class="icon">💳</div>
-        <h3>Ventas</h3>
-        <p>Pedidos y facturación</p>
+        <span class="module-icon">💳</span>
+        <div class="module-body">
+            <h3>VENTAS</h3>
+            <p>Pedidos y facturación</p>
+        </div>
     </a>
 
     <a href="/admin/" class="module-card">
-        <div class="icon">📊</div>
-        <h3>Reportes</h3>
-        <p>Análisis de ventas</p>
+        <span class="module-icon">📊</span>
+        <div class="module-body">
+            <h3>REPORTES</h3>
+            <p>Análisis de ventas</p>
+        </div>
     </a>
 
     <a href="/admin/" class="module-card">
-        <div class="icon">⚙️</div>
-        <h3>Admin</h3>
-        <p>Panel de administración</p>
+        <span class="module-icon">⚙️</span>
+        <div class="module-body">
+            <h3>ADMIN</h3>
+            <p>Panel de administración</p>
+        </div>
     </a>
 </div>
+
+<!-- NUEVA SECCIÓN: PRODUCTOS DESTACADOS -->
+<section class="featured-section">
+    <h2 class="featured-title">PRODUCTOS DESTACADOS</h2>
+    <p class="featured-subtitle">Lo más nuevo de DL Shoes</p>
+
+    <div class="featured-grid">
+        {% for producto in productos_destacados %}
+        <div class="product-card">
+            <div style="height: 280px; overflow: hidden; background: #1a1a1a;">
+                {% if "Air Max" in producto.nombre %}
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
+                {% elif "Classic" in producto.nombre %}
+                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
+                {% elif "Urban" in producto.nombre %}
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
+                {% elif "Runner" in producto.nombre %}
+                    <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
+                {% elif "Oxford" in producto.nombre %}
+                    <img src="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
+                {% else %}
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center; font-size: 6rem; filter: grayscale(1);">
+                        👟
+                    </div>
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <div class="product-name">{{ producto.nombre }}</div>
+                <div class="product-price">${{ producto.precio }} <small>MXN</small></div>
+                <a href="{% url 'productos:detalle' producto.pk %}" class="product-btn">
+                    VER DETALLE
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #8E8E93;">
+            <p style="font-size: 1.2rem;">Aún no hay productos registrados.</p>
+            <a href="/admin/productos/producto/add/" 
+               style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem;
+                      border: 1px solid #C0A062; color: #C0A062; text-decoration: none;
+                      letter-spacing: 2px; font-size: 0.8rem;">
+                + Agregar primer producto
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
 {% endblock %}
