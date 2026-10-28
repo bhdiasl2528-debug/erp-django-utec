@@ -23,8 +23,6 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY    = env('SECRET_KEY', default='dev-key-insegura-solo-para-desarrollo')
 DEBUG         = env('DEBUG', default=True)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
-
-# ── Apps instaladas ───────────────────────────────────────────────────────
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -43,13 +41,14 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
 
     # Apps del ERP
-    'core',                 # ← AGREGAR ESTA LÍNEA
+    'core',
     'clientes',
     'proveedores',
     'productos',
     'ventas',
     'reportes',
     'configuracion',
+    'api',              # ← nueva app W10
 ]
 
 # ── Middleware ────────────────────────────────────────────────────────────
@@ -123,11 +122,19 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL           = '/accounts/login/'
 LOGIN_REDIRECT_URL  = '/productos/'
 LOGOUT_REDIRECT_URL = '/'
-
 # ── Django REST Framework ─────────────────────────────────────────────────
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
 

@@ -12,6 +12,8 @@ urlpatterns = [
     # Allauth
     path('accounts/',    include('allauth.urls')),
     # Apps del ERP
+        # API REST
+    path('api/', include('api.urls')),
     path('clientes/',    include('clientes.urls',    namespace='clientes')),
     path('proveedores/', include('proveedores.urls', namespace='proveedores')),
     path('productos/',   include('productos.urls',   namespace='productos')),
