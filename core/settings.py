@@ -1,14 +1,11 @@
 """
 Django settings for core project — ERP UTEC Celaya.
-Guía de Laboratorio W01 · Espiral 1 · Sprint 0
-Actualizado W09: allauth + RBAC
+Guía de Laboratorio W10 · Espiral 4 · Sprint 3
 
-Modified from default startproject settings to include:
-- 5 apps del ERP (clientes, proveedores, productos, ventas, reportes)
-- django-environ para leer .env
-- WhiteNoise para servir estáticos
-- django-allauth para autenticación
-- Configuración regional es-MX / America/Mexico_City
+Incluye:
+- 7 apps del ERP + app api
+- django-environ, WhiteNoise, allauth, DRF + TokenAuth
+- Configuración regional es-MX
 """
 
 import environ
@@ -23,8 +20,11 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY    = env('SECRET_KEY', default='dev-key-insegura-solo-para-desarrollo')
 DEBUG         = env('DEBUG', default=True)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+
+# ── Apps instaladas ───────────────────────────────────────────────────────
 INSTALLED_APPS = [
     'jazzmin',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'rest_framework.authtoken',
     'whitenoise.runserver_nostatic',
 
     # Apps del ERP
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
     'ventas',
     'reportes',
     'configuracion',
-    'api',              # ← nueva app W10
+    'api',
 ]
 
 # ── Middleware ────────────────────────────────────────────────────────────
@@ -61,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',   # agregado W09
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -122,25 +123,23 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL           = '/accounts/login/'
 LOGIN_REDIRECT_URL  = '/productos/'
 LOGOUT_REDIRECT_URL = '/'
+
 # ── Django REST Framework ─────────────────────────────────────────────────
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ],
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ── DJANGO SITES (requerido por allauth) ──────────────────────────────────
+# ── DJANGO SITES ──────────────────────────────────────────────────────────
 SITE_ID = 1
 
 # ── AUTHENTICATION BACKENDS ───────────────────────────────────────────────
@@ -149,7 +148,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# ── ALLAUTH: configuración para desarrollo académico ──────────────────────
+# ── ALLAUTH ───────────────────────────────────────────────────────────────
 ACCOUNT_LOGIN_METHODS          = {'username'}
 ACCOUNT_EMAIL_REQUIRED         = False
 ACCOUNT_EMAIL_VERIFICATION     = 'none'
@@ -158,22 +157,22 @@ ACCOUNT_SESSION_REMEMBER       = True
 
 # ── JAZZMIN ───────────────────────────────────────────────────────────────
 JAZZMIN_SETTINGS = {
-    'site_title':       'DL Shoes · Admin',
-    'site_header':      'DL Shoes',
-    'site_brand':       '👟 DL Shoes',
-    'welcome_sign':     'Panel de administración · DL Shoes',
-    'copyright':        'DL Shoes · Todos los derechos reservados 2026',
+    'site_title':       'ERP Django',
+    'site_header':      'ERP UTEC Celaya',
+    'site_brand':       '📦 ERP Django',
+    'welcome_sign':     'Bienvenido al Sistema ERP · UTEC Celaya',
+    'copyright':        'MC. Román Fernando López González · UTEC Celaya',
     'site_icon':        None,
     'site_logo':        None,
     'search_model':     ['clientes.Cliente', 'productos.Producto'],
     'topmenu_links': [
-        {'name': 'Inicio',   'url': '/', 'new_window': False},
+        {'name': 'Inicio ERP',   'url': '/', 'new_window': False},
         {'name': 'Productos',    'url': '/productos/'},
         {'name': 'Clientes',     'url': '/clientes/'},
         {'name': 'Ventas',       'url': '/ventas/'},
     ],
     'usermenu_links': [
-        {'name': 'Ver tienda', 'url': '/', 'new_window': False},
+        {'name': 'Ver ERP', 'url': '/', 'new_window': False},
     ],
     'order_with_respect_to': [
         'clientes', 'proveedores', 'productos',
@@ -186,16 +185,16 @@ JAZZMIN_SETTINGS = {
         'clientes.Cliente':           'fas fa-user-tie',
         'proveedores.Proveedor':      'fas fa-truck',
         'productos.Categoria':        'fas fa-tags',
-        'productos.Producto':         'fas fa-shoe-prints',
-        'ventas.Venta':               'fas fa-receipt',
+        'productos.Producto':         'fas fa-box',
+        'ventas.Venta':               'fas fa-file-invoice-dollar',
         'ventas.DetalleVenta':        'fas fa-list',
-        'ventas.Pedido':              'fas fa-shopping-bag',
+        'ventas.Pedido':              'fas fa-shopping-cart',
         'configuracion.ConfiguracionERP': 'fas fa-cogs',
     },
     'default_icon_parents': 'fas fa-folder',
     'default_icon_children': 'fas fa-circle',
     'related_modal_active':     True,
-    'custom_css': 'jazzmin/erp_custom.css',
+    'custom_css':               'erp_custom.css',
     'show_sidebar':             True,
     'navigation_expanded':      True,
     'hide_apps':                [],
@@ -210,14 +209,14 @@ JAZZMIN_UI_TWEAKS = {
     'body_small_text':          False,
     'brand_small_text':         False,
     'brand_colour':             'navbar-dark',
-    'accent':                   'accent-dark',
+    'accent':                   'accent-navy',
     'navbar':                   'navbar-dark',
     'no_navbar_border':         False,
     'navbar_fixed':             True,
     'layout_boxed':             False,
     'footer_fixed':             False,
     'sidebar_fixed':            True,
-    'sidebar':                  'sidebar-dark-dark',
+    'sidebar':                  'sidebar-dark-navy',
     'sidebar_nav_small_text':   False,
     'sidebar_disable_expand':   False,
     'sidebar_nav_child_indent': True,
