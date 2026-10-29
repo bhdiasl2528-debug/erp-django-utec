@@ -1,5 +1,5 @@
 # productos/serializers.py
-"""Serializers de la app productos — W10."""
+"""Serializers de la app productos — W11 (con imagen)."""
 from rest_framework import serializers
 
 from .models import Categoria, Producto
@@ -15,6 +15,7 @@ class CategoriaSerializer(serializers.ModelSerializer):
 class ProductoSerializer(serializers.ModelSerializer):
     categoria_nombre = serializers.CharField(source='categoria.nombre', read_only=True)
     proveedor_nombre = serializers.CharField(source='proveedor.nombre', read_only=True, allow_null=True)
+    imagen_url       = serializers.SerializerMethodField()
 
     class Meta:
         model  = Producto
@@ -22,6 +23,21 @@ class ProductoSerializer(serializers.ModelSerializer):
             'id', 'nombre', 'precio', 'stock',
             'categoria', 'categoria_nombre',
             'proveedor', 'proveedor_nombre',
-            'activo', 'creado',
+            'activo', 'imagen', 'imagen_url', 'creado',
         ]
-        read_only_fields = ['id', 'creado', 'categoria_nombre', 'proveedor_nombre']
+        read_only_fields = [
+            'id', 'creado',
+            'categoria_nombre', 'proveedor_nombre', 'imagen_url',
+        ]
+        extra_kwargs = {
+            'imagen': {'required': False, 'allow_null': True},
+        }
+
+    def get_imagen_url(self, obj: Producto):
+        """Devuelve la URL absoluta de la imagen o None."""
+        request = self.context.get('request')
+        if obj.imagen and request:
+            return request.build_absolute_uri(obj.imagen.url)
+        if obj.imagen:
+            return obj.imagen.url
+        return None

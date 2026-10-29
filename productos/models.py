@@ -1,5 +1,5 @@
 # productos/models.py
-"""Modelos de la app productos — Espiral 2 W05-W06."""
+"""Modelos de la app productos — Espiral 4 W11."""
 from decimal import Decimal
 
 from django.core.exceptions import ValidationError
@@ -7,15 +7,11 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from proveedores.models import Proveedor
+from .validators import validar_imagen_producto
 
 
 class Categoria(models.Model):
-    """Categoría para clasificar productos del catálogo.
-
-    Atributos:
-        nombre:      Nombre único de la categoría.
-        descripcion: Descripción opcional.
-    """
+    """Categoría para clasificar productos del catálogo."""
 
     nombre      = models.CharField(
         max_length=100, unique=True, verbose_name='Nombre'
@@ -34,12 +30,7 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
-    """Artículo del inventario del ERP.
-
-    Decisiones de diseño aplicadas:
-        D-01: categoria usa on_delete=PROTECT.
-        D-02: proveedor usa on_delete=SET_NULL (puede ser null).
-    """
+    """Artículo del inventario del ERP."""
 
     nombre    = models.CharField(
         max_length=200, verbose_name='Nombre'
@@ -58,13 +49,13 @@ class Producto(models.Model):
     )
     categoria = models.ForeignKey(
         Categoria,
-        on_delete=models.PROTECT,          # D-01
+        on_delete=models.PROTECT,
         related_name='productos',
         verbose_name='Categoría'
     )
     proveedor = models.ForeignKey(
         Proveedor,
-        on_delete=models.SET_NULL,         # D-02
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='productos',
@@ -73,30 +64,25 @@ class Producto(models.Model):
     activo    = models.BooleanField(
         default=True, verbose_name='Activo'
     )
+    imagen    = models.ImageField(
+        upload_to='productos/',
+        null=True,
+        blank=True,
+        verbose_name='Imagen del producto',
+        help_text='Formatos permitidos: JPEG, PNG, WEBP. Máximo 5 MB.',
+        validators=[validar_imagen_producto],
+    )
     creado    = models.DateTimeField(
         auto_now_add=True, verbose_name='Fecha de registro'
     )
 
     def clean(self) -> None:
-        """Validaciones de negocio cruzadas para Producto.
-
-        Ejecutadas por full_clean() (formularios y llamadas explícitas).
-        No se ejecutan con save() directo.
-        """
+        """Validaciones de negocio cruzadas."""
         errors = {}
-
         if self.precio is not None and self.precio < 0:
-            errors['precio'] = (
-                'El precio no puede ser negativo. '
-                f'Valor recibido: {self.precio}'
-            )
-
+            errors['precio'] = f'El precio no puede ser negativo. Valor: {self.precio}'
         if self.stock is not None and self.stock < 0:
-            errors['stock'] = (
-                'El stock no puede ser negativo. '
-                f'Valor recibido: {self.stock}'
-            )
-
+            errors['stock'] = f'El stock no puede ser negativo. Valor: {self.stock}'
         if errors:
             raise ValidationError(errors)
 

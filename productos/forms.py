@@ -1,5 +1,5 @@
 # productos/forms.py
-"""Formularios de la app productos — W08."""
+"""Formularios de la app productos — W11 (con imagen)."""
 from django import forms
 
 from .models import Producto
@@ -11,7 +11,7 @@ class ProductoForm(forms.ModelForm):
     class Meta:
         model  = Producto
         fields = ['nombre', 'precio', 'stock', 'categoria',
-                  'proveedor', 'activo']
+                  'proveedor', 'activo', 'imagen']
         widgets = {
             'nombre':    forms.TextInput(
                 attrs={'class': 'erp-input',
@@ -23,11 +23,11 @@ class ProductoForm(forms.ModelForm):
             'stock':     forms.NumberInput(
                 attrs={'class': 'erp-input', 'min': '0'}
             ),
-            'categoria': forms.Select(
-                attrs={'class': 'erp-input'}
-            ),
-            'proveedor': forms.Select(
-                attrs={'class': 'erp-input'}
+            'categoria': forms.Select(attrs={'class': 'erp-input'}),
+            'proveedor': forms.Select(attrs={'class': 'erp-input'}),
+            'imagen':    forms.ClearableFileInput(
+                attrs={'class': 'erp-input',
+                       'accept': 'image/jpeg,image/png,image/webp'}
             ),
         }
         labels = {
@@ -37,4 +37,5 @@ class ProductoForm(forms.ModelForm):
             'categoria': 'Categoría',
             'proveedor': 'Proveedor',
             'activo':    'Activo',
+            'imagen':    'Imagen del producto',
         }
