@@ -177,6 +177,7 @@
         max-width: 1100px;
         margin: 0 auto;
     }
+        /* ── TARJETAS DE PRODUCTO ── */
     .product-card {
         background: var(--dl-char);
         border: 1px solid var(--dl-mid);
@@ -184,6 +185,9 @@
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
     .product-card::before {
         content: 'NUEVO';
@@ -198,14 +202,27 @@
         z-index: 3;
     }
     .product-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         border-color: var(--dl-gold);
         box-shadow: 0 20px 40px rgba(192, 160, 98, 0.15);
     }
-    .product-img {
+
+    /* Contenedor de la imagen con proporción fija */
+    .product-img-wrapper {
+        position: relative;
         width: 100%;
-        height: 280px;
+        padding-top: 75%;   /* 4:3 aspect ratio */
+        overflow: hidden;
+        background: #0f0f0f;
+    }
+    .product-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        object-position: center;
         filter: grayscale(1) brightness(0.9);
         transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         display: block;
@@ -214,52 +231,24 @@
         filter: grayscale(0) brightness(1);
         transform: scale(1.05);
     }
+    .product-img-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        filter: grayscale(1);
+        background: #0f0f0f;
+    }
+
     .product-info {
         padding: 1.5rem;
         background: var(--dl-char);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
-    .product-name {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 1.5rem;
-        letter-spacing: 3px;
-        color: var(--dl-white);
-        margin-bottom: 0.5rem;
-    }
-    .product-price {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--dl-gold);
-        margin-bottom: 1rem;
-    }
-    .product-price small {
-        font-size: 0.7rem;
-        color: var(--dl-silver);
-        font-weight: 400;
-        letter-spacing: 1px;
-        margin-left: 0.5rem;
-    }
-    .product-btn {
-        display: block;
-        text-align: center;
-        padding: 0.85rem;
-        background: transparent;
-        border: 1px solid var(--dl-gold);
-        color: var(--dl-gold);
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        text-decoration: none;
-        transition: all 0.3s;
-    }
-    .product-btn:hover {
-        background: var(--dl-gold);
-        color: var(--dl-black);
-    }
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to   { opacity: 1; transform: translateY(0); }
     }
 </style>
 
@@ -326,7 +315,7 @@
     </a>
 </div>
 
-<!-- NUEVA SECCIÓN: PRODUCTOS DESTACADOS -->
+<<!-- SECCIÓN PRODUCTOS DESTACADOS -->
 <section class="featured-section">
     <h2 class="featured-title">PRODUCTOS DESTACADOS</h2>
     <p class="featured-subtitle">Lo más nuevo de DL Shoes</p>
@@ -334,21 +323,11 @@
     <div class="featured-grid">
         {% for producto in productos_destacados %}
         <div class="product-card">
-            <div style="height: 280px; overflow: hidden; background: #1a1a1a;">
-                {% if "Air Max" in producto.nombre %}
-                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
-                {% elif "Classic" in producto.nombre %}
-                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
-                {% elif "Urban" in producto.nombre %}
-                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
-                {% elif "Runner" in producto.nombre %}
-                    <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
-                {% elif "Oxford" in producto.nombre %}
-                    <img src="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=600&q=80" alt="{{ producto.nombre }}" class="product-img">
+            <div class="product-img-wrapper">
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-img">
                 {% else %}
-                    <div style="height: 100%; display: flex; align-items: center; justify-content: center; font-size: 6rem; filter: grayscale(1);">
-                        👟
-                    </div>
+                    <div class="product-img-placeholder">👟</div>
                 {% endif %}
             </div>
             <div class="product-info">
