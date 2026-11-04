@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura #{{ venta.pk }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-size: 12px;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #C0A062;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .brand h1 {
+            font-size: 28px;
+            margin: 0;
+            letter-spacing: 4px;
+            color: #0A0A0A;
+        }
+        .brand p {
+            margin: 0.25rem 0 0;
+            color: #8E8E93;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .factura-info {
+            text-align: right;
+        }
+        .factura-info h2 {
+            font-size: 18px;
+            margin: 0;
+            color: #0A0A0A;
+        }
+        .factura-info p {
+            margin: 0.25rem 0 0;
+            font-size: 11px;
+            color: #4A4A4A;
+        }
+        .cliente {
+            background: #F5F5F7;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+        .cliente h3 {
+            margin: 0 0 0.5rem;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8E8E93;
+        }
+        .cliente p {
+            margin: 0.25rem 0;
+            font-size: 13px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        table thead th {
+            background: #0A0A0A;
+            color: #FFFFFF;
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        table tbody td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #E5E5E5;
+            font-size: 12px;
+        }
+        .total-row {
+            background: #F5F5F7;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .total-row td {
+            padding: 1rem 0.75rem;
+            border-bottom: none;
+        }
+        .total-label {
+            text-align: right;
+        }
+        .total-valor {
+            color: #C0A062;
+            font-size: 18px;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E5E5E5;
+            text-align: center;
+            font-size: 10px;
+            color: #8E8E93;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <div class="header">
+        <div class="brand">
+            <h1>DL SHOES</h1>
+            <p>Premium Footwear</p>
+        </div>
+        <div class="factura-info">
+            <h2>FACTURA #{{ venta.pk }}</h2>
+            <p>{{ venta.fecha|date:"d/m/Y H:i" }}</p>
+        </div>
+    </div>
+
+    <!-- Cliente -->
+    <div class="cliente">
+        <h3>Cliente</h3>
+        <p><strong>{{ venta.cliente.nombre }}</strong></p>
+        <p>{{ venta.cliente.correo }}</p>
+        {% if venta.cliente.telefono %}<p>{{ venta.cliente.telefono }}</p>{% endif %}
+    </div>
+
+    <!-- Tabla de productos -->
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th style="text-align:right;">Precio unit.</th>
+                <th style="text-align:center;">Cantidad</th>
+                <th style="text-align:right;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in venta.detalles.all %}
+            <tr>
+                <td>{{ d.producto.nombre }}</td>
+                <td style="text-align:right;">${{ d.precio_unitario }}</td>
+                <td style="text-align:center;">{{ d.cantidad }}</td>
+                <td style="text-align:right;">${{ d.subtotal }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center;color:#8E8E93;">
+                    Sin líneas de detalle.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="3" class="total-label">TOTAL:</td>
+                <td style="text-align:right;" class="total-valor">
+                    ${{ venta.total }}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Footer -->
+    <div class="footer">
+        DL Shoes · Premium Footwear · Gracias por su compra
+    </div>
+
+</body>
+</html>

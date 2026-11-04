@@ -1,5 +1,5 @@
 # core/urls.py
-"""Enrutador principal del ERP Django — W10."""
+"""Enrutador principal del ERP Django — W12."""
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -11,6 +11,9 @@ from productos.api_urls   import urlpatterns as productos_api
 from clientes.api_urls    import urlpatterns as clientes_api
 from proveedores.api_urls import urlpatterns as proveedores_api
 from ventas.api_urls      import urlpatterns as ventas_api
+
+from reportes.pdf_views   import factura_pdf
+from reportes.excel_views import productos_excel
 
 api_urlpatterns = (
     productos_api +
@@ -26,6 +29,9 @@ urlpatterns = [
     # API REST (W10)
     path('api/',        include((api_urlpatterns, 'api'))),
     path('api/auth/token/', obtain_auth_token, name='api_token'),
+    # Reportes (W12)
+    path('ventas/<int:venta_id>/pdf/', factura_pdf, name='venta_pdf'),
+    path('productos/exportar-excel/', productos_excel, name='productos_excel'),
     # Apps del ERP (interfaz web)
     path('clientes/',    include('clientes.urls',    namespace='clientes')),
     path('proveedores/', include('proveedores.urls', namespace='proveedores')),
