@@ -27,10 +27,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # Tus apps reales (He quitado 'pedidos' que era la que daba error)
+    # Tus apps reales
     'productos',
     'ventas',
     'clientes',
+    'proveedores',  # <-- Agregada aquí para solucionar el error
     'reportes',
     'configuracion', 
 ]
