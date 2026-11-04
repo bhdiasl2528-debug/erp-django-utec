@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Carrito{% endblock %}
+{% block nav_productos %}active{% endblock %}
+
+{% block content %}
+<div class="erp-page-title">
+    <h2>🛒 Carrito de compras</h2>
+</div>
+
+{% if carrito %}
+<table class="erp-table">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pid, item in carrito.items %}
+        <tr>
+            <td>{{ item.nombre }}</td>
+            <td>${{ item.precio }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td style="color:var(--dl-gold);font-weight:700;">
+                ${{ item.precio }}
+            </td>
+            <td>
+                <a href="{% url 'productos:quitar_carrito' pid %}"
+                   class="btn-erp-danger btn-erp-sm">Quitar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top:1.5rem;text-align:right;">
+    <h3 style="color:var(--dl-gold);font-size:1.5rem;">
+        Total: ${{ total_precio }}
+    </h3>
+    <div style="margin-top:1rem;">
+        <a href="{% url 'productos:vaciar_carrito' %}"
+           class="btn-erp-danger">Vaciar carrito</a>
+        <a href="#" class="btn-erp-gold"
+           onclick="alert('El checkout se implementará en la Espiral 5');return false;">
+            Proceder al pago
+        </a>
+    </div>
+</div>
+
+{% else %}
+<div class="erp-alert-info">
+    Tu carrito está vacío. <a href="{% url 'productos:lista' %}" style="color:var(--dl-gold);">Ver productos →</a>
+</div>
+{% endif %}
+
+<a href="{% url 'productos:lista' %}" class="btn-erp-primary" style="margin-top:2rem;display:inline-block;">
+    ← Seguir comprando
+</a>
+{% endblock %}

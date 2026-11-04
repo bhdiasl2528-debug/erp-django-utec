@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+    {% extends "base.html" %}
 {% block title %}{{ producto.nombre }}{% endblock %}
 {% block nav_productos %}active{% endblock %}
 
@@ -13,50 +13,248 @@
     {% endif %}
 </div>
 
-{% if producto.imagen %}
-<div class="erp-card" style="max-width:480px;margin-bottom:1rem;">
-    <div class="erp-card-header">Imagen del producto</div>
-    <div style="text-align:center;padding:.5rem;">
-        <img src="{{ producto.imagen.url }}"
-             alt="{{ producto.nombre }}"
-             style="max-width:100%;max-height:320px;border-radius:8px;object-fit:contain;">
+<div class="detalle-grid">
+    <!-- Imagen del producto -->
+    <div class="detalle-imagen">
+        {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}"
+                 alt="{{ producto.nombre }}"
+                 class="imagen-producto">
+        {% else %}
+            <div class="sin-imagen">👟</div>
+        {% endif %}
     </div>
-</div>
-{% endif %}
 
-<div class="erp-card">
-    <div class="erp-card-header">Información del producto</div>
-    <dl class="row" style="margin:0;">
-        <dt class="col-sm-3">Categoría</dt>
-        <dd class="col-sm-9">{{ producto.categoria }}</dd>
-        <dt class="col-sm-3">Proveedor</dt>
-        <dd class="col-sm-9">{{ producto.proveedor|default:"Sin asignar" }}</dd>
-        <dt class="col-sm-3">Precio</dt>
-        <dd class="col-sm-9" style="font-weight:700;color:var(--clr-gold);">
-            ${{ producto.precio }}
-        </dd>
-        <dt class="col-sm-3">Stock</dt>
-        <dd class="col-sm-9">
-            {% if producto.stock < 5 %}
-                <span class="badge-erp-inactive">{{ producto.stock }} unidades (stock bajo)</span>
-            {% else %}
-                <span class="badge-erp-active">{{ producto.stock }} unidades</span>
-            {% endif %}
-        </dd>
-        <dt class="col-sm-3">Estado</dt>
-        <dd class="col-sm-9">
-            {% if producto.activo %}
-                <span class="badge-erp-active">Activo</span>
-            {% else %}
-                <span class="badge-erp-inactive">Inactivo</span>
-            {% endif %}
-        </dd>
-        <dt class="col-sm-3">Registrado</dt>
-        <dd class="col-sm-9">{{ producto.creado|date:"d/m/Y H:i" }}</dd>
-    </dl>
-</div>
+    <!-- Información y acción de compra -->
+    <div class="detalle-info">
+        <div class="erp-card">
+            <div class="erp-card-header">Información del producto</div>
 
-<a href="{% url 'productos:lista' %}" class="btn-erp-primary">
+            <div class="precio-grande">${{ producto.precio }} <small>MXN</small></div>
+
+            <dl class="info-lista">
+                <dt>Categoría</dt>
+                <dd>{{ producto.categoria }}</dd>
+
+                <dt>Proveedor</dt>
+                <dd>{{ producto.proveedor|default:"Sin asignar" }}</dd>
+
+                <dt>Stock</dt>
+                <dd>
+                    {% if producto.stock < 5 %}
+                        <span class="badge-erp-inactive">
+                            {{ producto.stock }} unidades (stock bajo)
+                        </span>
+                    {% else %}
+                        <span class="badge-erp-active">
+                            {{ producto.stock }} unidades
+                        </span>
+                    {% endif %}
+                </dd>
+
+                <dt>Estado</dt>
+                <dd>
+                    {% if producto.activo %}
+                        <span class="badge-erp-active">Activo</span>
+                    {% else %}
+                        <span class="badge-erp-inactive">Inactivo</span>
+                    {% endif %}
+                </dd>
+
+                <dt>Registrado</dt>
+                <dd>{{ producto.creado|date:"d/m/Y H:i" }}</dd>
+            </dl>
+
+                       <!-- BOTONES DE COMPRA -->
+            <div class="acciones-compra">
+                <a href="{% url 'productos:agregar_carrito' producto.pk %}"
+                   class="btn-comprar-ahora">
+                    🛒 Comprar ahora
+                </a>
+                <a href="{% url 'productos:agregar_carrito' producto.pk %}"
+                   class="btn-agregar-carrito">
+                    + Agregar al carrito
+                </a>
+            </div>
+
+<a href="{% url 'productos:lista' %}" class="btn-erp-primary" style="margin-top: 1.5rem; display: inline-block;">
     ← Volver a la lista
 </a>
+
+<!-- Notificación flotante -->
+<div class="toast-notification" id="toast">
+    <span id="toast-mensaje">Producto agregado al carrito</span>
+</div>
+
+<style>
+    .detalle-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    @media (max-width: 900px) {
+        .detalle-grid { grid-template-columns: 1fr; }
+    }
+
+    .detalle-imagen {
+        background: var(--dl-char);
+        border: 1px solid var(--dl-mid);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+        padding: 1rem;
+    }
+    .imagen-producto {
+        max-width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+        border-radius: 6px;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .detalle-imagen:hover .imagen-producto {
+        transform: scale(1.05);
+    }
+    .sin-imagen {
+        font-size: 8rem;
+        filter: grayscale(1);
+    }
+
+    .precio-grande {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.5rem;
+        color: var(--dl-gold);
+        letter-spacing: 2px;
+        margin-bottom: 1.5rem;
+    }
+    .precio-grande small {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        color: var(--dl-silver);
+        letter-spacing: 2px;
+        margin-left: 0.5rem;
+    }
+
+    .info-lista {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.75rem 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .info-lista dt {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--dl-silver);
+        font-weight: 600;
+    }
+    .info-lista dd {
+        color: var(--dl-white);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .acciones-compra {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--dl-mid);
+    }
+    .btn-comprar-ahora {
+        background: var(--dl-gold);
+        color: var(--dl-black);
+        border: none;
+        padding: 1rem 1.5rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Inter', sans-serif;
+    }
+    .btn-comprar-ahora:hover {
+        background: #D4B478;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(192, 160, 98, 0.3);
+    }
+    .btn-agregar-carrito {
+        background: transparent;
+        color: var(--dl-white);
+        border: 1px solid var(--dl-white);
+        padding: 1rem 1.5rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Inter', sans-serif;
+    }
+    .btn-agregar-carrito:hover {
+        background: var(--dl-white);
+        color: var(--dl-black);
+        transform: translateY(-2px);
+    }
+    .btn-agregar-carrito.agregado {
+        background: #4CAF50;
+        border-color: #4CAF50;
+        color: var(--dl-white);
+    }
+
+    /* Notificación flotante */
+    .toast-notification {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--dl-char);
+        color: var(--dl-white);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--dl-gold);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 9999;
+        font-size: 0.9rem;
+    }
+    .toast-notification.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnAgregar = document.querySelector('.btn-agregar-carrito');
+        const toast      = document.getElementById('toast');
+        const toastMsg   = document.getElementById('toast-mensaje');
+
+        if (btnAgregar) {
+            btnAgregar.addEventListener('click', function() {
+                // Cambiar texto del botón
+                const original = this.innerHTML;
+                this.innerHTML = '✓ Agregado';
+                this.classList.add('agregado');
+
+                // Mostrar notificación flotante
+                toastMsg.textContent = '✓ Producto agregado al carrito';
+                toast.classList.add('visible');
+
+                // Restaurar después de 2.5 segundos
+                setTimeout(() => {
+                    this.innerHTML = original;
+                    this.classList.remove('agregado');
+                    toast.classList.remove('visible');
+                }, 2500);
+            });
+        }
+    });
+</script>
 {% endblock %}

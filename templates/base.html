@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DL Shoes · {% block title %}Premium Footwear{% endblock %}</title>
+    <title>DL Shoes · {% block title %}ERP{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* ── DL SHOES · Identidad premium negro ──────────────────────── */
         :root {
             --dl-black:   #000000;
             --dl-ink:     #0A0A0A;
@@ -20,20 +19,21 @@
             --dl-white:   #F5F5F7;
             --dl-gold:    #C0A062;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         html { scroll-behavior: smooth; }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--dl-black);
             color: var(--dl-white);
             line-height: 1.6;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+        main { flex: 1; }
 
-        /* ── NAVBAR ──────────────────────────────────────── */
+        /* ── NAVBAR ── */
         .erp-navbar {
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
@@ -46,14 +46,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
         .erp-brand {
             color: var(--dl-white);
             text-decoration: none;
@@ -63,25 +56,11 @@
             display: flex;
             align-items: center;
             gap: 0.6rem;
-            transition: all 0.3s;
         }
-
-        .erp-brand:hover {
-            color: var(--dl-gold);
-            transform: translateX(2px);
-        }
-
         .erp-brand .logo-icon {
             font-size: 1.8rem;
-            display: inline-block;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             filter: grayscale(1) brightness(1.5);
         }
-
-        .erp-brand:hover .logo-icon {
-            transform: rotate(-20deg) scale(1.2);
-        }
-
         .erp-brand .brand-sub {
             color: var(--dl-silver);
             font-family: 'Inter', sans-serif;
@@ -90,15 +69,8 @@
             margin-left: 0.75rem;
             letter-spacing: 3px;
             text-transform: uppercase;
-            opacity: 0.7;
         }
-
-        .erp-nav-links {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
+        .erp-nav-links { display: flex; gap: 0.5rem; align-items: center; }
         .erp-nav-link {
             color: var(--dl-silver);
             text-decoration: none;
@@ -110,7 +82,6 @@
             position: relative;
             transition: color 0.3s;
         }
-
         .erp-nav-link::after {
             content: '';
             position: absolute;
@@ -122,15 +93,8 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateX(-50%);
         }
-
-        .erp-nav-link:hover {
-            color: var(--dl-white);
-        }
-
-        .erp-nav-link:hover::after {
-            width: 60%;
-        }
-
+        .erp-nav-link:hover { color: var(--dl-white); }
+        .erp-nav-link:hover::after { width: 60%; }
         .theme-toggle {
             background: transparent;
             border: 1px solid var(--dl-mid);
@@ -141,27 +105,19 @@
             margin-left: 0.75rem;
             transition: all 0.3s;
         }
-
         .theme-toggle:hover {
             border-color: var(--dl-gold);
             color: var(--dl-gold);
-            transform: rotate(20deg);
         }
 
-        /* ── CONTENEDOR ──────────────────────────────────── */
+        /* ── CONTENEDOR ── */
         .erp-container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 3rem 2rem;
-            animation: fadeIn 0.8s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        /* ── MENSAJES FLASH ──────────────────────────────── */
+        /* ── MENSAJES FLASH ── */
         .erp-alert-success, .erp-alert-error, .erp-alert-warning, .erp-alert-info {
             padding: 1rem 1.5rem;
             margin-bottom: 1.5rem;
@@ -169,19 +125,13 @@
             border-left: 3px solid;
             background: var(--dl-char);
             color: var(--dl-white);
-            animation: slideIn 0.4s ease-out;
         }
         .erp-alert-success { border-color: #4CAF50; }
         .erp-alert-error   { border-color: #C62828; }
         .erp-alert-warning { border-color: var(--dl-gold); }
         .erp-alert-info    { border-color: #4A90D9; }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-
-        /* ── BOTONES ──────────────────────────────────────── */
+        /* ── BOTONES ── */
         .btn-erp-primary,
         .btn-erp-gold,
         .btn-erp-danger {
@@ -197,10 +147,7 @@
             border: 1px solid transparent;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
         }
-
         .btn-erp-primary {
             background: var(--dl-white);
             color: var(--dl-black);
@@ -209,9 +156,7 @@
             background: var(--dl-gold);
             color: var(--dl-black);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(192, 160, 98, 0.3);
         }
-
         .btn-erp-gold {
             background: transparent;
             color: var(--dl-white);
@@ -222,7 +167,6 @@
             color: var(--dl-black);
             transform: translateY(-2px);
         }
-
         .btn-erp-danger {
             background: transparent;
             color: #FF6B6B;
@@ -233,33 +177,15 @@
             color: var(--dl-white);
             border-color: #C62828;
         }
-
         .btn-erp-sm { padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 1px; }
 
-        /* ── CARDS ──────────────────────────────────────────── */
+        /* ── CARDS ── */
         .erp-card {
             background: var(--dl-char);
             border: 1px solid var(--dl-mid);
             padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
-
-        .erp-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--dl-gold);
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .erp-card:hover::before {
-            width: 100%;
-        }
-
         .erp-card-header {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.5rem;
@@ -270,13 +196,8 @@
             margin-bottom: 1.5rem;
         }
 
-        /* ── TABLAS ─────────────────────────────────────────── */
-        .erp-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--dl-char);
-        }
-
+        /* ── TABLAS ── */
+        .erp-table { width: 100%; border-collapse: collapse; background: var(--dl-char); }
         .erp-table thead th {
             background: var(--dl-black);
             color: var(--dl-gold);
@@ -288,28 +209,15 @@
             text-align: left;
             border-bottom: 1px solid var(--dl-mid);
         }
-
         .erp-table tbody td {
             padding: 1.25rem 1rem;
             border-bottom: 1px solid var(--dl-mid);
             font-size: 0.9rem;
             color: var(--dl-light);
-            transition: all 0.2s;
         }
+        .erp-table tbody tr:hover { background: var(--dl-gray); }
 
-        .erp-table tbody tr {
-            transition: background 0.2s;
-        }
-
-        .erp-table tbody tr:hover {
-            background: var(--dl-gray);
-        }
-
-        .erp-table tbody tr:hover td {
-            color: var(--dl-white);
-        }
-
-        /* ── BADGES ─────────────────────────────────────────── */
+        /* ── BADGES ── */
         .badge-erp-active {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -333,7 +241,7 @@
             border: 1px solid rgba(198, 40, 40, 0.3);
         }
 
-        /* ── TÍTULOS DE PÁGINA ───────────────────────────────── */
+        /* ── TÍTULOS DE PÁGINA ── */
         .erp-page-title {
             display: flex;
             align-items: center;
@@ -342,7 +250,6 @@
             padding-bottom: 1.5rem;
             border-bottom: 1px solid var(--dl-mid);
         }
-
         .erp-page-title h2 {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 2.5rem;
@@ -351,25 +258,88 @@
             letter-spacing: 4px;
         }
 
-        /* ── FOOTER ──────────────────────────────────────────── */
+        /* ── FOOTER ── */
         .erp-footer {
             background: var(--dl-black);
             color: var(--dl-silver);
-            text-align: center;
-            font-size: 0.75rem;
-            padding: 2.5rem 1rem;
             border-top: 1px solid var(--dl-mid);
-            margin-top: 6rem;
+            padding: 2.5rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--dl-mid);
+        }
+        .footer-brand { flex: 1; min-width: 220px; }
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            color: var(--dl-white);
+            margin-bottom: 0.5rem;
+        }
+        .footer-tagline {
+            font-size: 0.75rem;
             letter-spacing: 2px;
             text-transform: uppercase;
+            color: var(--dl-silver);
+            margin-bottom: 0.75rem;
+        }
+        .footer-copy { font-size: 0.75rem; color: var(--dl-silver); opacity: 0.7; }
+        .footer-payments { text-align: right; min-width: 240px; }
+        .footer-payments-title {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--dl-silver);
+            margin-bottom: 0.75rem;
+        }
+        .payment-icons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+        .payment-icon {
+            width: 48px;
+            height: 32px;
+            border-radius: 4px;
+            overflow: hidden;
+            filter: grayscale(1) brightness(0.85);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .payment-icon:hover {
+            filter: grayscale(0) brightness(1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3);
+        }
+        .payment-icon svg { width: 100%; height: 100%; display: block; }
+        .footer-credits {
+            text-align: center;
+            padding-top: 1.25rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            font-size: 0.7rem;
+            color: var(--dl-silver);
+            opacity: 0.6;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 768px) {
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-payments { text-align: center; }
+            .payment-icons { justify-content: center; }
         }
 
-        /* ── INPUTS ──────────────────────────────────────────── */
-        .erp-input,
-        .erp-label {
-            display: block;
-            width: 100%;
-        }
+        /* ── INPUTS ── */
+        .erp-input, .erp-label { display: block; width: 100%; }
         .erp-label {
             font-size: 0.7rem;
             font-weight: 600;
@@ -392,53 +362,67 @@
             box-shadow: 0 0 0 3px rgba(192, 160, 98, 0.1);
         }
 
-        /* ── MODO CLARO (invertir) ──────────────────────────── */
-        [data-theme="light"] body            { background: var(--dl-white); color: var(--dl-ink); }
-        [data-theme="light"] .erp-navbar     { background: rgba(245, 245, 247, 0.95); }
-        [data-theme="light"] .erp-brand      { color: var(--dl-ink); }
-        [data-theme="light"] .erp-nav-link   { color: var(--dl-silver); }
-        [data-theme="light"] .erp-card       { background: var(--dl-white); border-color: var(--dl-light); }
-        [data-theme="light"] .erp-table      { background: var(--dl-white); }
+        /* ── MODO CLARO ── */
+        [data-theme="light"] body { background: var(--dl-white); color: var(--dl-ink); }
+        [data-theme="light"] .erp-navbar { background: rgba(245, 245, 247, 0.95); }
+        [data-theme="light"] .erp-brand { color: var(--dl-ink); }
+        [data-theme="light"] .erp-nav-link { color: var(--dl-silver); }
+        [data-theme="light"] .erp-card { background: var(--dl-white); border-color: var(--dl-light); }
+        [data-theme="light"] .erp-table { background: var(--dl-white); }
         [data-theme="light"] .erp-table tbody td { color: var(--dl-ink); border-color: var(--dl-light); }
-        [data-theme="light"] .erp-page-title h2  { color: var(--dl-ink); }
-        [data-theme="light"] .erp-footer     { background: var(--dl-ink); }
+        [data-theme="light"] .erp-page-title h2 { color: var(--dl-ink); }
+        [data-theme="light"] .erp-footer { background: var(--dl-ink); }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 
 <body>
-    <!-- NAVBAR -->
     <nav class="erp-navbar">
         <a class="erp-brand" href="/">
             <span class="logo-icon">👟</span> DL Shoes
             <span class="brand-sub">Premium Footwear</span>
         </a>
-
         <div class="erp-nav-links">
-            <a href="{% url 'productos:lista' %}"
-               class="erp-nav-link {% block nav_productos %}{% endblock %}">Productos</a>
-            <a href="{% url 'clientes:lista' %}"
-               class="erp-nav-link {% block nav_clientes %}{% endblock %}">Clientes</a>
-            <a href="{% url 'proveedores:lista' %}"
-               class="erp-nav-link {% block nav_proveedores %}{% endblock %}">Proveedores</a>
-            <a href="{% url 'ventas:lista' %}"
-               class="erp-nav-link {% block nav_ventas %}{% endblock %}">Ventas</a>
-            <a href="/admin/"
-               class="erp-nav-link {% block nav_admin %}{% endblock %}">Admin</a>
+            <a href="{% url 'productos:lista' %}" class="erp-nav-link {% block nav_productos %}{% endblock %}">Productos</a>
+            <a href="{% url 'clientes:lista' %}" class="erp-nav-link {% block nav_clientes %}{% endblock %}">Clientes</a>
+            <a href="{% url 'proveedores:lista' %}" class="erp-nav-link {% block nav_proveedores %}{% endblock %}">Proveedores</a>
+            <a href="{% url 'ventas:lista' %}" class="erp-nav-link {% block nav_ventas %}{% endblock %}">Ventas</a>
+            <a href="/admin/" class="erp-nav-link {% block nav_admin %}{% endblock %}">Admin</a>
+
+            <!-- CARRITO DE COMPRAS -->
+            <a href="{% url 'productos:ver_carrito' %}"
+               class="erp-nav-link cart-icon"
+               title="Carrito de compras"
+               style="position: relative; padding: 0.65rem 1.1rem;">
+                🛒 Carrito
+                {% if request.session.carrito %}
+                <span style="
+                    position: absolute;
+                    top: 0.15rem;
+                    right: 0.15rem;
+                    background: var(--dl-gold);
+                    color: var(--dl-black);
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                    padding: 0.1rem 0.4rem;
+                    border-radius: 10px;
+                    min-width: 1.1rem;
+                    text-align: center;
+                    line-height: 1.2;
+                ">{{ request.session.carrito|length }}</span>
+                {% endif %}
+            </a>
 
             {% if user.is_authenticated %}
-                <a href="{% url 'account_logout' %}" class="erp-nav-link">
-                    Salir ({{ user.username }})
-                </a>
+                <a href="{% url 'account_logout' %}" class="erp-nav-link">Salir ({{ user.username }})</a>
             {% else %}
                 <a href="{% url 'account_login' %}" class="erp-nav-link">Entrar</a>
             {% endif %}
 
-            <button class="theme-toggle" id="themeBtn" title="Modo claro/oscuro">☀️</button>
+            <button class="theme-toggle" id="themeBtn" title="Modo claro/oscuro">🌙</button>
         </div>
     </nav>
 
-    <!-- MENSAJES FLASH -->
     {% if messages %}
         <div class="erp-container" style="padding-bottom: 0;">
             {% for message in messages %}
@@ -447,14 +431,59 @@
         </div>
     {% endif %}
 
-    <!-- CONTENIDO -->
     <main class="erp-container">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- FOOTER -->
     <footer class="erp-footer">
-        © 2026 DL Shoes · Premium Footwear · Todos los derechos reservados
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">👟 DL SHOES</div>
+                <p class="footer-tagline">Premium Footwear</p>
+                <p class="footer-copy">© 2026 DL Shoes. Todos los derechos reservados.</p>
+            </div>
+            <div class="footer-payments">
+                <p class="footer-payments-title">Métodos de pago aceptados</p>
+                <div class="payment-icons">
+                    <div class="payment-icon" title="Visa">
+                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="32" rx="4" fill="#1A1F71"/>
+                            <path d="M20.5 21.5h-3l1.9-11.7h3l-1.9 11.7zm8.2-11.4c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.5 2.5 2.6 3 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1-1.7 1-1.1 0-1.7-.2-2.6-.6l-.4-.2-.4 2.3c.6.3 1.8.5 3.1.5 3.1 0 5-1.4 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.9 0 1.5.2 2 .4l.3.1.4-2.1zm7.9-.3h-2.3c-.7 0-1.3.2-1.6.9l-4.4 10.8h3.1l.6-1.7h3.8l.4 1.7h2.7l-2.3-11.7zm-3.6 7.5l1.2-3.3.7 3.3h-1.9zm-14.5-7.5l-3 8-.3-1.7c-.6-1.9-2.4-4-4.5-5l2.7 10.4h3.2l4.7-11.7h-2.8z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="payment-icon" title="Mastercard">
+                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="32" rx="4" fill="#0A0A0A"/>
+                            <circle cx="19" cy="16" r="8" fill="#EB001B"/>
+                            <circle cx="29" cy="16" r="8" fill="#F79E1B" fill-opacity="0.9"/>
+                        </svg>
+                    </div>
+                    <div class="payment-icon" title="PayPal">
+                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="32" rx="4" fill="#003087"/>
+                            <path d="M18.5 22h-2.3l1.8-10.8h4.4c2 0 3.4 1.2 3.1 3.2-.3 2.3-1.9 3.4-4.1 3.4h-1.6l-.6 4.2zm1.2-6.4h1.1c1 0 1.6-.5 1.7-1.4.1-.8-.4-1.3-1.3-1.3h-1.1l-.4 2.7z" fill="#fff"/>
+                            <path d="M29 22h-2.3l1.8-10.8h4.4c2 0 3.4 1.2 3.1 3.2-.3 2.3-1.9 3.4-4.1 3.4h-1.6l-.6 4.2zm1.2-6.4h1.1c1 0 1.6-.5 1.7-1.4.1-.8-.4-1.3-1.3-1.3h-1.1l-.4 2.7z" fill="#009cde"/>
+                        </svg>
+                    </div>
+                    <div class="payment-icon" title="Mercado Pago">
+                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="32" rx="4" fill="#00B1EA"/>
+                            <circle cx="18" cy="16" r="6" fill="#fff"/>
+                            <circle cx="30" cy="16" r="6" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="payment-icon" title="American Express">
+                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="32" rx="4" fill="#006FCF"/>
+                            <text x="24" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#fff" letter-spacing="0.5">AMEX</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-credits">
+            <p>Django 4.2 LTS · Python 3.11 · Fable 5 AzulERP</p>
+        </div>
     </footer>
 
     <script>
@@ -463,7 +492,6 @@
         const saved = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', saved);
         btn.textContent = saved === 'dark' ? '☀️' : '🌙';
-
         btn.addEventListener('click', () => {
             const current = html.getAttribute('data-theme');
             const next    = current === 'dark' ? 'light' : 'dark';

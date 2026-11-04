@@ -6,172 +6,253 @@
     <style>
         @page {
             size: A4;
-            margin: 2cm;
+            margin: 0;
+            padding: 2cm;
+            background: #FFFFFF;
         }
-        body {
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #FFFFFF;
             font-family: 'Helvetica', 'Arial', sans-serif;
-            font-size: 12px;
-            color: #1a1a1a;
+            font-size: 11px;
+            color: #1A1A1A;
             line-height: 1.5;
         }
+
+        /* ── ENCABEZADO ── */
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            padding-bottom: 1.5rem;
             border-bottom: 3px solid #C0A062;
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         .brand h1 {
             font-size: 28px;
-            margin: 0;
-            letter-spacing: 4px;
             color: #0A0A0A;
+            letter-spacing: 6px;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
         }
         .brand p {
-            margin: 0.25rem 0 0;
             color: #8E8E93;
-            font-size: 11px;
-            letter-spacing: 2px;
+            font-size: 9px;
+            letter-spacing: 4px;
             text-transform: uppercase;
+            font-weight: 600;
         }
-        .factura-info {
+        .factura-numero {
             text-align: right;
         }
-        .factura-info h2 {
-            font-size: 18px;
-            margin: 0;
+        .factura-numero h2 {
+            font-size: 22px;
             color: #0A0A0A;
+            letter-spacing: 3px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
-        .factura-info p {
-            margin: 0.25rem 0 0;
+        .factura-numero p {
+            color: #4A4A4A;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* ── CAJA DEL CLIENTE ── */
+        .cliente-box {
+            background: #F5F5F7;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #C0A062;
+        }
+        .cliente-box h3 {
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8E8E93;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+        .cliente-box .cliente-nombre {
+            font-size: 16px;
+            color: #0A0A0A;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.5px;
+        }
+        .cliente-box p {
             font-size: 11px;
             color: #4A4A4A;
+            margin: 0.2rem 0;
         }
-        .cliente {
-            background: #F5F5F7;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-        }
-        .cliente h3 {
-            margin: 0 0 0.5rem;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #8E8E93;
-        }
-        .cliente p {
-            margin: 0.25rem 0;
-            font-size: 13px;
-        }
+
+        /* ── TABLA DE PRODUCTOS ── */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         table thead th {
             background: #0A0A0A;
-            color: #FFFFFF;
-            padding: 0.75rem;
+            color: #C0A062;
+            padding: 0.85rem 1rem;
             text-align: left;
-            font-size: 11px;
+            font-size: 9px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        table tbody td {
-            padding: 0.75rem;
-            border-bottom: 1px solid #E5E5E5;
-            font-size: 12px;
-        }
-        .total-row {
-            background: #F5F5F7;
             font-weight: 700;
-            font-size: 14px;
         }
-        .total-row td {
-            padding: 1rem 0.75rem;
-            border-bottom: none;
+        table thead th.text-right { text-align: right; }
+        table thead th.text-center { text-align: center; }
+
+        table tbody td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #E5E5E5;
+            font-size: 11px;
+            color: #1A1A1A;
         }
-        .total-label {
+        table tbody tr:nth-child(even) {
+            background: #FAFAFA;
+        }
+        table tbody td.text-right { text-align: right; }
+        table tbody td.text-center { text-align: center; }
+        table tbody td.producto-nombre {
+            font-weight: 600;
+            color: #0A0A0A;
+        }
+        table tbody td.precio {
+            color: #1A1A1A;
+            font-weight: 600;
+        }
+
+        /* ── TOTAL DESTACADO ── */
+        .total-container {
+            text-align: right;
+            margin-top: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .total-box {
+            display: inline-block;
+            background: #0A0A0A;
+            color: #FFFFFF;
+            padding: 1rem 2.5rem;
+            min-width: 300px;
             text-align: right;
         }
-        .total-valor {
-            color: #C0A062;
-            font-size: 18px;
-        }
-        .footer {
-            margin-top: 3rem;
-            padding-top: 1rem;
-            border-top: 1px solid #E5E5E5;
-            text-align: center;
+        .total-label {
             font-size: 10px;
+            letter-spacing: 4px;
             color: #8E8E93;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+            font-weight: 700;
+        }
+        .total-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #C0A062;
             letter-spacing: 1px;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #C0A062;
+            text-align: center;
+        }
+        .footer .footer-brand {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: #0A0A0A;
+            margin-bottom: 0.5rem;
+        }
+        .footer p {
+            font-size: 9px;
+            color: #8E8E93;
+            letter-spacing: 2px;
+            margin: 0.2rem 0;
+            text-transform: uppercase;
+        }
+        .footer .footer-gracias {
+            margin-top: 0.85rem;
+            font-size: 11px;
+            color: #C0A062;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <!-- Encabezado -->
+    <!-- ENCABEZADO -->
     <div class="header">
         <div class="brand">
             <h1>DL SHOES</h1>
             <p>Premium Footwear</p>
         </div>
-        <div class="factura-info">
+        <div class="factura-numero">
             <h2>FACTURA #{{ venta.pk }}</h2>
             <p>{{ venta.fecha|date:"d/m/Y H:i" }}</p>
         </div>
     </div>
 
-    <!-- Cliente -->
-    <div class="cliente">
-        <h3>Cliente</h3>
-        <p><strong>{{ venta.cliente.nombre }}</strong></p>
+    <!-- DATOS DEL CLIENTE -->
+    <div class="cliente-box">
+        <h3>Información del cliente</h3>
+        <p class="cliente-nombre">{{ venta.cliente.nombre }}</p>
         <p>{{ venta.cliente.correo }}</p>
-        {% if venta.cliente.telefono %}<p>{{ venta.cliente.telefono }}</p>{% endif %}
+        {% if venta.cliente.telefono %}
+            <p>{{ venta.cliente.telefono }}</p>
+        {% endif %}
     </div>
 
-    <!-- Tabla de productos -->
+    <!-- TABLA DE PRODUCTOS -->
     <table>
         <thead>
             <tr>
                 <th>Producto</th>
-                <th style="text-align:right;">Precio unit.</th>
-                <th style="text-align:center;">Cantidad</th>
-                <th style="text-align:right;">Subtotal</th>
+                <th class="text-right">Precio Unit.</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-right">Subtotal</th>
             </tr>
         </thead>
         <tbody>
             {% for d in venta.detalles.all %}
             <tr>
-                <td>{{ d.producto.nombre }}</td>
-                <td style="text-align:right;">${{ d.precio_unitario }}</td>
-                <td style="text-align:center;">{{ d.cantidad }}</td>
-                <td style="text-align:right;">${{ d.subtotal }}</td>
+                <td class="producto-nombre">{{ d.producto.nombre }}</td>
+                <td class="text-right precio">${{ d.precio_unitario }}</td>
+                <td class="text-center">{{ d.cantidad }}</td>
+                <td class="text-right precio">${{ d.subtotal }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4" style="text-align:center;color:#8E8E93;">
+                <td colspan="4" class="text-center" style="color:#8E8E93;">
                     Sin líneas de detalle.
                 </td>
             </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr class="total-row">
-                <td colspan="3" class="total-label">TOTAL:</td>
-                <td style="text-align:right;" class="total-valor">
-                    ${{ venta.total }}
-                </td>
-            </tr>
-        </tfoot>
     </table>
 
-    <!-- Footer -->
+    <!-- TOTAL DESTACADO -->
+    <div class="total-container">
+        <div class="total-box">
+            <div class="total-label">Total a Pagar</div>
+            <div class="total-value">${{ venta.total }}</div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
     <div class="footer">
-        DL Shoes · Premium Footwear · Gracias por su compra
+        <div class="footer-brand">DL SHOES</div>
+        <p>Premium Footwear · Sistema ERP</p>
+        <p>Gracias por su compra</p>
+        <p class="footer-gracias">Gracias por su preferencia</p>
     </div>
 
 </body>
