@@ -27,13 +27,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # Tus apps (ajusta según tu proyecto)
+    # Tus apps reales (He quitado 'pedidos' que era la que daba error)
     'productos',
     'ventas',
     'clientes',
     'reportes',
-    'pedidos',
-    'configuracion',
+    'configuracion', 
 ]
 
 MIDDLEWARE = [
