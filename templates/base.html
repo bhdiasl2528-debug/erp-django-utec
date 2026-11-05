@@ -1,11 +1,10 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="es" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DL Shoes · {% block title %}ERP{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -95,7 +94,8 @@
         }
         .erp-nav-link:hover { color: var(--dl-white); }
         .erp-nav-link:hover::after { width: 60%; }
-        .theme-toggle {
+        
+        .theme-toggle, .music-toggle {
             background: transparent;
             border: 1px solid var(--dl-mid);
             color: var(--dl-silver);
@@ -105,7 +105,7 @@
             margin-left: 0.75rem;
             transition: all 0.3s;
         }
-        .theme-toggle:hover {
+        .theme-toggle:hover, .music-toggle:hover {
             border-color: var(--dl-gold);
             color: var(--dl-gold);
         }
@@ -132,9 +132,7 @@
         .erp-alert-info    { border-color: #4A90D9; }
 
         /* ── BOTONES ── */
-        .btn-erp-primary,
-        .btn-erp-gold,
-        .btn-erp-danger {
+        .btn-erp-primary, .btn-erp-gold, .btn-erp-danger {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -148,219 +146,53 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn-erp-primary {
-            background: var(--dl-white);
-            color: var(--dl-black);
-        }
-        .btn-erp-primary:hover {
-            background: var(--dl-gold);
-            color: var(--dl-black);
-            transform: translateY(-2px);
-        }
-        .btn-erp-gold {
-            background: transparent;
-            color: var(--dl-white);
-            border: 1px solid var(--dl-white);
-        }
-        .btn-erp-gold:hover {
-            background: var(--dl-white);
-            color: var(--dl-black);
-            transform: translateY(-2px);
-        }
-        .btn-erp-danger {
-            background: transparent;
-            color: #FF6B6B;
-            border: 1px solid #FF6B6B;
-        }
-        .btn-erp-danger:hover {
-            background: #C62828;
-            color: var(--dl-white);
-            border-color: #C62828;
-        }
+        .btn-erp-primary { background: var(--dl-white); color: var(--dl-black); }
+        .btn-erp-primary:hover { background: var(--dl-gold); color: var(--dl-black); transform: translateY(-2px); }
+        .btn-erp-gold { background: transparent; color: var(--dl-white); border: 1px solid var(--dl-white); }
+        .btn-erp-gold:hover { background: var(--dl-white); color: var(--dl-black); transform: translateY(-2px); }
+        .btn-erp-danger { background: transparent; color: #FF6B6B; border: 1px solid #FF6B6B; }
+        .btn-erp-danger:hover { background: #C62828; color: var(--dl-white); border-color: #C62828; }
         .btn-erp-sm { padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 1px; }
 
         /* ── CARDS ── */
-        .erp-card {
-            background: var(--dl-char);
-            border: 1px solid var(--dl-mid);
-            padding: 2rem;
-            position: relative;
-        }
-        .erp-card-header {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            color: var(--dl-white);
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--dl-mid);
-            margin-bottom: 1.5rem;
-        }
+        .erp-card { background: var(--dl-char); border: 1px solid var(--dl-mid); padding: 2rem; position: relative; }
+        .erp-card-header { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px; color: var(--dl-white); padding-bottom: 1rem; border-bottom: 1px solid var(--dl-mid); margin-bottom: 1.5rem; }
 
         /* ── TABLAS ── */
         .erp-table { width: 100%; border-collapse: collapse; background: var(--dl-char); }
-        .erp-table thead th {
-            background: var(--dl-black);
-            color: var(--dl-gold);
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 1.25rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--dl-mid);
-        }
-        .erp-table tbody td {
-            padding: 1.25rem 1rem;
-            border-bottom: 1px solid var(--dl-mid);
-            font-size: 0.9rem;
-            color: var(--dl-light);
-        }
+        .erp-table thead th { background: var(--dl-black); color: var(--dl-gold); font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 1.25rem 1rem; text-align: left; border-bottom: 1px solid var(--dl-mid); }
+        .erp-table tbody td { padding: 1.25rem 1rem; border-bottom: 1px solid var(--dl-mid); font-size: 0.9rem; color: var(--dl-light); }
         .erp-table tbody tr:hover { background: var(--dl-gray); }
 
         /* ── BADGES ── */
-        .badge-erp-active {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: rgba(76, 175, 80, 0.15);
-            color: #4CAF50;
-            border: 1px solid rgba(76, 175, 80, 0.3);
-        }
-        .badge-erp-inactive {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: rgba(198, 40, 40, 0.15);
-            color: #FF6B6B;
-            border: 1px solid rgba(198, 40, 40, 0.3);
-        }
+        .badge-erp-active { display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: rgba(76, 175, 80, 0.15); color: #4CAF50; border: 1px solid rgba(76, 175, 80, 0.3); }
+        .badge-erp-inactive { display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: rgba(198, 40, 40, 0.15); color: #FF6B6B; border: 1px solid rgba(198, 40, 40, 0.3); }
 
         /* ── TÍTULOS DE PÁGINA ── */
-        .erp-page-title {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--dl-mid);
-        }
-        .erp-page-title h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 400;
-            color: var(--dl-white);
-            letter-spacing: 4px;
-        }
+        .erp-page-title { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--dl-mid); }
+        .erp-page-title h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; font-weight: 400; color: var(--dl-white); letter-spacing: 4px; }
 
         /* ── FOOTER ── */
-        .erp-footer {
-            background: var(--dl-black);
-            color: var(--dl-silver);
-            border-top: 1px solid var(--dl-mid);
-            padding: 2.5rem 2rem 1.5rem;
-            margin-top: 4rem;
-        }
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--dl-mid);
-        }
+        .erp-footer { background: var(--dl-black); color: var(--dl-silver); border-top: 1px solid var(--dl-mid); padding: 2.5rem 2rem 1.5rem; margin-top: 4rem; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; max-width: 1280px; margin: 0 auto; padding-bottom: 1.5rem; border-bottom: 1px solid var(--dl-mid); }
         .footer-brand { flex: 1; min-width: 220px; }
-        .footer-logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
-            letter-spacing: 3px;
-            color: var(--dl-white);
-            margin-bottom: 0.5rem;
-        }
-        .footer-tagline {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--dl-silver);
-            margin-bottom: 0.75rem;
-        }
+        .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--dl-white); margin-bottom: 0.5rem; }
+        .footer-tagline { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dl-silver); margin-bottom: 0.75rem; }
         .footer-copy { font-size: 0.75rem; color: var(--dl-silver); opacity: 0.7; }
         .footer-payments { text-align: right; min-width: 240px; }
-        .footer-payments-title {
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--dl-silver);
-            margin-bottom: 0.75rem;
-        }
-        .payment-icons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
-        .payment-icon {
-            width: 48px;
-            height: 32px;
-            border-radius: 4px;
-            overflow: hidden;
-            filter: grayscale(1) brightness(0.85);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .payment-icon:hover {
-            filter: grayscale(0) brightness(1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3);
-        }
+        .footer-payments-title { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dl-silver); margin-bottom: 0.75rem; }
+        .payment-icons { display: flex; gap: 0.5rem; justify-content: flex-end; flex-wrap: wrap; }
+        .payment-icon { width: 48px; height: 32px; border-radius: 4px; overflow: hidden; filter: grayscale(1) brightness(0.85); transition: all 0.3s ease; cursor: pointer; }
+        .payment-icon:hover { filter: grayscale(0) brightness(1); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3); }
         .payment-icon svg { width: 100%; height: 100%; display: block; }
-        .footer-credits {
-            text-align: center;
-            padding-top: 1.25rem;
-            max-width: 1280px;
-            margin: 0 auto;
-            font-size: 0.7rem;
-            color: var(--dl-silver);
-            opacity: 0.6;
-            letter-spacing: 1px;
-        }
-        @media (max-width: 768px) {
-            .footer-content { flex-direction: column; text-align: center; }
-            .footer-payments { text-align: center; }
-            .payment-icons { justify-content: center; }
-        }
+        .footer-credits { text-align: center; padding-top: 1.25rem; max-width: 1280px; margin: 0 auto; font-size: 0.7rem; color: var(--dl-silver); opacity: 0.6; letter-spacing: 1px; }
+        @media (max-width: 768px) { .footer-content { flex-direction: column; text-align: center; } .footer-payments { text-align: center; } .payment-icons { justify-content: center; } }
 
         /* ── INPUTS ── */
         .erp-input, .erp-label { display: block; width: 100%; }
-        .erp-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--dl-silver);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .erp-input {
-            padding: 0.9rem 1.25rem;
-            border: 1px solid var(--dl-mid);
-            font-size: 0.95rem;
-            background: var(--dl-black);
-            color: var(--dl-white);
-            transition: all 0.3s;
-        }
-        .erp-input:focus {
-            outline: none;
-            border-color: var(--dl-gold);
-            box-shadow: 0 0 0 3px rgba(192, 160, 98, 0.1);
-        }
+        .erp-label { font-size: 0.7rem; font-weight: 600; color: var(--dl-silver); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 2px; }
+        .erp-input { padding: 0.9rem 1.25rem; border: 1px solid var(--dl-mid); font-size: 0.95rem; background: var(--dl-black); color: var(--dl-white); transition: all 0.3s; }
+        .erp-input:focus { outline: none; border-color: var(--dl-gold); box-shadow: 0 0 0 3px rgba(192, 160, 98, 0.1); }
 
         /* ── MODO CLARO ── */
         [data-theme="light"] body { background: var(--dl-white); color: var(--dl-ink); }
@@ -373,7 +205,6 @@
         [data-theme="light"] .erp-page-title h2 { color: var(--dl-ink); }
         [data-theme="light"] .erp-footer { background: var(--dl-ink); }
     </style>
-    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
@@ -383,55 +214,32 @@
             <span class="brand-sub">Premium Footwear</span>
         </a>
         <div class="erp-nav-links">
-            <a href="{% url 'productos:lista' %}" class="erp-nav-link {% block nav_productos %}{% endblock %}">Productos</a>
-            <a href="{% url 'clientes:lista' %}" class="erp-nav-link {% block nav_clientes %}{% endblock %}">Clientes</a>
-            <a href="{% url 'proveedores:lista' %}" class="erp-nav-link {% block nav_proveedores %}{% endblock %}">Proveedores</a>
-            <a href="{% url 'ventas:lista' %}" class="erp-nav-link {% block nav_ventas %}{% endblock %}">Ventas</a>
-            <a href="/admin/" class="erp-nav-link {% block nav_admin %}{% endblock %}">Admin</a>
-
-            <!-- CARRITO DE COMPRAS -->
-            <a href="{% url 'productos:ver_carrito' %}"
-               class="erp-nav-link cart-icon"
-               title="Carrito de compras"
-               style="position: relative; padding: 0.65rem 1.1rem;">
-                🛒 Carrito
-                {% if request.session.carrito %}
-                <span style="
-                    position: absolute;
-                    top: 0.15rem;
-                    right: 0.15rem;
-                    background: var(--dl-gold);
-                    color: var(--dl-black);
-                    font-size: 0.65rem;
-                    font-weight: 700;
-                    padding: 0.1rem 0.4rem;
-                    border-radius: 10px;
-                    min-width: 1.1rem;
-                    text-align: center;
-                    line-height: 1.2;
-                ">{{ request.session.carrito|length }}</span>
-                {% endif %}
-            </a>
-
+            <a href="/productos/" class="erp-nav-link">Productos</a>
+            <a href="/clientes/" class="erp-nav-link">Clientes</a>
+            <a href="/proveedores/" class="erp-nav-link">Proveedores</a>
+            <a href="/ventas/" class="erp-nav-link">Ventas</a>
+            <a href="/admin/" class="erp-nav-link">Admin</a>
+            <a href="/catalogo/" class="erp-nav-link">🛒 Tienda</a>
+            <a href="/catalogo/carrito/" class="erp-nav-link cart-icon" title="Carrito de compras" style="position: relative; padding: 0.65rem 1.1rem;">🛒 Carrito</a>
+            
             {% if user.is_authenticated %}
-                <a href="{% url 'account_logout' %}" class="erp-nav-link">Salir ({{ user.username }})</a>
-            {% else %}
-                <a href="{% url 'account_login' %}" class="erp-nav-link">Entrar</a>
+                <a href="/accounts/logout/" class="erp-nav-link">Salir ({{ user.username|title }})</a>
             {% endif %}
 
+            <!-- Botón de Música -->
+            <button id="btn-musica" class="music-toggle" title="Reproducir/Pausar Música">▶️</button>
+            <!-- Botón de Tema -->
             <button class="theme-toggle" id="themeBtn" title="Modo claro/oscuro">🌙</button>
         </div>
     </nav>
 
-    {% if messages %}
-        <div class="erp-container" style="padding-bottom: 0;">
+    <main class="erp-container">
+        {% if messages %}
             {% for message in messages %}
                 <div class="erp-alert-{{ message.tags }}">{{ message }}</div>
             {% endfor %}
-        </div>
-    {% endif %}
+        {% endif %}
 
-    <main class="erp-container">
         {% block content %}{% endblock %}
     </main>
 
@@ -445,39 +253,9 @@
             <div class="footer-payments">
                 <p class="footer-payments-title">Métodos de pago aceptados</p>
                 <div class="payment-icons">
-                    <div class="payment-icon" title="Visa">
-                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="32" rx="4" fill="#1A1F71"/>
-                            <path d="M20.5 21.5h-3l1.9-11.7h3l-1.9 11.7zm8.2-11.4c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.5 2.5 2.6 3 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1-1.7 1-1.1 0-1.7-.2-2.6-.6l-.4-.2-.4 2.3c.6.3 1.8.5 3.1.5 3.1 0 5-1.4 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.9 0 1.5.2 2 .4l.3.1.4-2.1zm7.9-.3h-2.3c-.7 0-1.3.2-1.6.9l-4.4 10.8h3.1l.6-1.7h3.8l.4 1.7h2.7l-2.3-11.7zm-3.6 7.5l1.2-3.3.7 3.3h-1.9zm-14.5-7.5l-3 8-.3-1.7c-.6-1.9-2.4-4-4.5-5l2.7 10.4h3.2l4.7-11.7h-2.8z" fill="#fff"/>
-                        </svg>
-                    </div>
-                    <div class="payment-icon" title="Mastercard">
-                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="32" rx="4" fill="#0A0A0A"/>
-                            <circle cx="19" cy="16" r="8" fill="#EB001B"/>
-                            <circle cx="29" cy="16" r="8" fill="#F79E1B" fill-opacity="0.9"/>
-                        </svg>
-                    </div>
-                    <div class="payment-icon" title="PayPal">
-                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="32" rx="4" fill="#003087"/>
-                            <path d="M18.5 22h-2.3l1.8-10.8h4.4c2 0 3.4 1.2 3.1 3.2-.3 2.3-1.9 3.4-4.1 3.4h-1.6l-.6 4.2zm1.2-6.4h1.1c1 0 1.6-.5 1.7-1.4.1-.8-.4-1.3-1.3-1.3h-1.1l-.4 2.7z" fill="#fff"/>
-                            <path d="M29 22h-2.3l1.8-10.8h4.4c2 0 3.4 1.2 3.1 3.2-.3 2.3-1.9 3.4-4.1 3.4h-1.6l-.6 4.2zm1.2-6.4h1.1c1 0 1.6-.5 1.7-1.4.1-.8-.4-1.3-1.3-1.3h-1.1l-.4 2.7z" fill="#009cde"/>
-                        </svg>
-                    </div>
-                    <div class="payment-icon" title="Mercado Pago">
-                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="32" rx="4" fill="#00B1EA"/>
-                            <circle cx="18" cy="16" r="6" fill="#fff"/>
-                            <circle cx="30" cy="16" r="6" fill="#fff"/>
-                        </svg>
-                    </div>
-                    <div class="payment-icon" title="American Express">
-                        <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="32" rx="4" fill="#006FCF"/>
-                            <text x="24" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#fff" letter-spacing="0.5">AMEX</text>
-                        </svg>
-                    </div>
+                    <div class="payment-icon" title="Visa"><svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#1A1F71"/><path d="M20.5 21.5h-3l1.9-11.7h3l-1.9 11.7zm8.2-11.4c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.5 2.5 2.6 3 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1-1.7 1-1.1 0-1.7-.2-2.6-.6l-.4-.2-.4 2.3c.6.3 1.8.5 3.1.5 3.1 0 5-1.4 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.9 0 1.5.2 2 .4l.3.1.4-2.1zm7.9-.3h-2.3c-.7 0-1.3.2-1.6.9l-4.4 10.8h3.1l.6-1.7h3.8l.4 1.7h2.7l-2.3-11.7zm-3.6 7.5l1.2-3.3.7 3.3h-1.9zm-14.5-7.5l-3 8-.3-1.7c-.6-1.9-2.4-4-4.5-5l2.7 10.4h3.2l4.7-11.7h-2.8z" fill="#fff"/></svg></div>
+                    <div class="payment-icon" title="Mastercard"><svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#0A0A0A"/><circle cx="19" cy="16" r="8" fill="#EB001B"/><circle cx="29" cy="16" r="8" fill="#F79E1B" fill-opacity="0.9"/></svg></div>
+                    <div class="payment-icon" title="PayPal"><svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#003087"/><path d="M18.5 22h-2.3l1.8-10.8h4.4c2 0 3.4 1.2 3.1 3.2-.3 2.3-1.9 3.4-4.1 3.4h-1.6l-.6 4.2zm1.2-6.4h1.1c1 0 1.6-.5 1.7-1.4.1-.8-.4-1.3-1.3-1.3h-1.1l-.4 2.7z" fill="#fff"/><path d="M29 22h-2.3l1.8-10.8h4.4c2 0 3.4 1.2 3.1 3.2-.3 2.3-1.9 3.4-4.1 3.4h-1.6l-.6 4.2zm1.2-6.4h1.1c1 0 1.6-.5 1.7-1.4.1-.8-.4-1.3-1.3-1.3h-1.1l-.4 2.7z" fill="#009cde"/></svg></div>
                 </div>
             </div>
         </div>
@@ -486,18 +264,65 @@
         </div>
     </footer>
 
+    <!-- Reproductor de música oculto -->
+    <audio id="bg-music" style="display: none;"></audio>
+
     <script>
+        // 1. Lógica para el botón de Modo Claro / Oscuro
         const btn  = document.getElementById('themeBtn');
         const html = document.documentElement;
         const saved = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', saved);
-        btn.textContent = saved === 'dark' ? '☀️' : '🌙';
-        btn.addEventListener('click', () => {
-            const current = html.getAttribute('data-theme');
-            const next    = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', next);
-            btn.textContent = next === 'dark' ? '☀️' : '🌙';
-            localStorage.setItem('theme', next);
+        
+        if (btn) {
+            btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+            btn.addEventListener('click', () => {
+                const current = html.getAttribute('data-theme');
+                const next    = current === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                btn.textContent = next === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', next);
+            });
+        }
+
+        // 2. Lógica del Reproductor de Música Aleatoria
+        document.addEventListener("DOMContentLoaded", function() {
+            const audio = document.getElementById('bg-music');
+            const btnMusica = document.getElementById('btn-musica');
+            const canciones = [
+                "/static/musica/flaka.mp3",
+                "/static/musica/peso.mp3"
+            ];
+            let cancionActual = -1;
+
+            function reproducirAleatoria() {
+                let nuevaCancion;
+                do {
+                    nuevaCancion = Math.floor(Math.random() * canciones.length);
+                } while (nuevaCancion === cancionActual && canciones.length > 1);
+
+                cancionActual = nuevaCancion;
+                audio.src = canciones[cancionActual];
+                audio.play().catch(e => console.log("Error al reproducir:", e));
+            }
+
+            if (btnMusica) {
+                btnMusica.addEventListener('click', () => {
+                    if (audio.paused) {
+                        if (cancionActual === -1) { 
+                            reproducirAleatoria(); 
+                        } else { 
+                            audio.play(); 
+                        }
+                        btnMusica.textContent = '⏸️';
+                    } else {
+                        audio.pause();
+                        btnMusica.textContent = '▶️';
+                    }
+                });
+            }
+
+            audio.addEventListener('ended', reproducirAleatoria);
         });
     </script>
 </body>

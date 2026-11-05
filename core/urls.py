@@ -23,6 +23,7 @@ api_urlpatterns = (
 )
 
 urlpatterns = [
+    path('catalogo/', include('catalogo.urls', namespace='catalogo')),
     path('admin/',      admin.site.urls),
     path('',            views.bienvenida,             name='inicio'),
     path('accounts/',   include('allauth.urls')),

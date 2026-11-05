@@ -2,29 +2,27 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<div class="text-center py-4">
-    <h1 style="font-family:'Playfair Display',serif;
-               color:var(--clr-navy);font-size:2.2rem;">
-        📦 ERP Django
+<div class="text-center py-4" style="margin-bottom: 3rem;">
+    <h1 style="font-family:'Bebas Neue', sans-serif; color:#C0A062; font-size:3.5rem; letter-spacing:4px; margin-bottom: 0.5rem;">
+        DL SHOES
     </h1>
-    <p style="color:var(--clr-muted);font-size:1.05rem;">
-        Sistema de gestión empresarial · UTEC Celaya · Espiral 1 W02
+    <p style="color:#8E8E93; font-size:1.1rem; letter-spacing: 1px; text-transform: uppercase;">
+        Premium Footwear · ERP System
     </p>
-    <div class="d-flex justify-content-center gap-2 mt-2 flex-wrap">
-        <span class="badge-erp-gold">Django 4.2 LTS</span>
-        <span class="badge-erp-gold">Python 3.11</span>
-        <span class="badge-erp-gold">Fable 5 AzulERP</span>
+    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+        <span style="border:1px solid #2A2A2A; padding:0.5rem 1rem; color:#C0A062; font-size:0.8rem; letter-spacing:1px;">DJANGO 4.2 LTS</span>
+        <span style="border:1px solid #2A2A2A; padding:0.5rem 1rem; color:#C0A062; font-size:0.8rem; letter-spacing:1px;">PYTHON 3.11</span>
+        <span style="border:1px solid #2A2A2A; padding:0.5rem 1rem; color:#C0A062; font-size:0.8rem; letter-spacing:1px;">POSTGRESQL</span>
     </div>
 </div>
 
-<div class="row g-3 mt-2">
+<div class="row g-4">
     {% for m in modulos %}
     <div class="col-md-4">
-        <div class="erp-card text-center"
-             style="cursor:pointer;" onclick="window.location='{{ m.url }}'">
-            <div style="font-size:2rem;margin-bottom:.4rem;">{{ m.icono }}</div>
-            <strong style="color:var(--clr-navy);">{{ m.nombre }}</strong>
-            <p style="color:var(--clr-muted);font-size:.85rem;margin:.3rem 0 0;">
+        <div class="erp-card text-center" style="cursor:pointer; background:#0A0A0A; border:1px solid #2A2A2A; padding:3rem 2rem; transition:all 0.3s;" onclick="window.location='{{ m.url }}'" onmouseover="this.style.borderColor='#C0A062'; this.style.transform='translateY(-5px)';" onmouseout="this.style.borderColor='#2A2A2A'; this.style.transform='translateY(0)';">
+            <div style="font-size:3rem; margin-bottom:1.5rem; filter: grayscale(1) brightness(2);">{{ m.icono }}</div>
+            <strong style="color:#FFFFFF; font-family:'Bebas Neue', sans-serif; font-size:1.5rem; letter-spacing:2px;">{{ m.nombre }}</strong>
+            <p style="color:#8E8E93; font-size:.9rem; margin-top:0.5rem;">
                 {{ m.descripcion }}
             </p>
         </div>
