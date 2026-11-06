@@ -31,121 +31,24 @@
             min-height: 100vh;
         }
         main { flex: 1; }
-
-        /* ── NAVBAR ── */
-        .erp-navbar {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 1.25rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--dl-mid);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .erp-brand {
-            color: var(--dl-white);
-            text-decoration: none;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.75rem;
-            letter-spacing: 3px;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .erp-brand .logo-icon {
-            font-size: 1.8rem;
-            filter: grayscale(1) brightness(1.5);
-        }
-        .erp-brand .brand-sub {
-            color: var(--dl-silver);
-            font-family: 'Inter', sans-serif;
-            font-weight: 300;
-            font-size: 0.7rem;
-            margin-left: 0.75rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
+        .erp-navbar { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--dl-mid); position: sticky; top: 0; z-index: 1000; }
+        .erp-brand { color: var(--dl-white); text-decoration: none; font-family: 'Bebas Neue', sans-serif; font-size: 1.75rem; letter-spacing: 3px; display: flex; align-items: center; gap: 0.6rem; }
+        .erp-brand .logo-icon { font-size: 1.8rem; filter: grayscale(1) brightness(1.5); }
+        .erp-brand .brand-sub { color: var(--dl-silver); font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.7rem; margin-left: 0.75rem; letter-spacing: 3px; text-transform: uppercase; }
         .erp-nav-links { display: flex; gap: 0.5rem; align-items: center; }
-        .erp-nav-link {
-            color: var(--dl-silver);
-            text-decoration: none;
-            padding: 0.65rem 1.1rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            transition: color 0.3s;
-        }
-        .erp-nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0.4rem;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: var(--dl-gold);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(-50%);
-        }
+        .erp-nav-link { color: var(--dl-silver); text-decoration: none; padding: 0.65rem 1.1rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; position: relative; transition: color 0.3s; }
+        .erp-nav-link::after { content: ''; position: absolute; bottom: 0.4rem; left: 50%; width: 0; height: 1px; background: var(--dl-gold); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(-50%); }
         .erp-nav-link:hover { color: var(--dl-white); }
         .erp-nav-link:hover::after { width: 60%; }
-        
-        .theme-toggle, .music-toggle {
-            background: transparent;
-            border: 1px solid var(--dl-mid);
-            color: var(--dl-silver);
-            padding: 0.5rem 0.8rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-left: 0.75rem;
-            transition: all 0.3s;
-        }
-        .theme-toggle:hover, .music-toggle:hover {
-            border-color: var(--dl-gold);
-            color: var(--dl-gold);
-        }
-
-        /* ── CONTENEDOR ── */
-        .erp-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        /* ── MENSAJES FLASH ── */
-        .erp-alert-success, .erp-alert-error, .erp-alert-warning, .erp-alert-info {
-            padding: 1rem 1.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            border-left: 3px solid;
-            background: var(--dl-char);
-            color: var(--dl-white);
-        }
+        .theme-toggle { background: transparent; border: 1px solid var(--dl-mid); color: var(--dl-silver); padding: 0.5rem 0.8rem; cursor: pointer; font-size: 0.9rem; margin-left: 0.75rem; transition: all 0.3s; }
+        .theme-toggle:hover { border-color: var(--dl-gold); color: var(--dl-gold); }
+        .erp-container { max-width: 1400px; margin: 0 auto; padding: 3rem 2rem; }
+        .erp-alert-success, .erp-alert-error, .erp-alert-warning, .erp-alert-info { padding: 1rem 1.5rem; margin-bottom: 1.5rem; font-size: 0.9rem; border-left: 3px solid; background: var(--dl-char); color: var(--dl-white); }
         .erp-alert-success { border-color: #4CAF50; }
         .erp-alert-error   { border-color: #C62828; }
         .erp-alert-warning { border-color: var(--dl-gold); }
         .erp-alert-info    { border-color: #4A90D9; }
-
-        /* ── BOTONES ── */
-        .btn-erp-primary, .btn-erp-gold, .btn-erp-danger {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.75rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-decoration: none;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .btn-erp-primary, .btn-erp-gold, .btn-erp-danger { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.75rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .btn-erp-primary { background: var(--dl-white); color: var(--dl-black); }
         .btn-erp-primary:hover { background: var(--dl-gold); color: var(--dl-black); transform: translateY(-2px); }
         .btn-erp-gold { background: transparent; color: var(--dl-white); border: 1px solid var(--dl-white); }
@@ -153,26 +56,16 @@
         .btn-erp-danger { background: transparent; color: #FF6B6B; border: 1px solid #FF6B6B; }
         .btn-erp-danger:hover { background: #C62828; color: var(--dl-white); border-color: #C62828; }
         .btn-erp-sm { padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 1px; }
-
-        /* ── CARDS ── */
         .erp-card { background: var(--dl-char); border: 1px solid var(--dl-mid); padding: 2rem; position: relative; }
         .erp-card-header { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px; color: var(--dl-white); padding-bottom: 1rem; border-bottom: 1px solid var(--dl-mid); margin-bottom: 1.5rem; }
-
-        /* ── TABLAS ── */
         .erp-table { width: 100%; border-collapse: collapse; background: var(--dl-char); }
         .erp-table thead th { background: var(--dl-black); color: var(--dl-gold); font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 1.25rem 1rem; text-align: left; border-bottom: 1px solid var(--dl-mid); }
         .erp-table tbody td { padding: 1.25rem 1rem; border-bottom: 1px solid var(--dl-mid); font-size: 0.9rem; color: var(--dl-light); }
         .erp-table tbody tr:hover { background: var(--dl-gray); }
-
-        /* ── BADGES ── */
         .badge-erp-active { display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: rgba(76, 175, 80, 0.15); color: #4CAF50; border: 1px solid rgba(76, 175, 80, 0.3); }
         .badge-erp-inactive { display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: rgba(198, 40, 40, 0.15); color: #FF6B6B; border: 1px solid rgba(198, 40, 40, 0.3); }
-
-        /* ── TÍTULOS DE PÁGINA ── */
         .erp-page-title { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--dl-mid); }
         .erp-page-title h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; font-weight: 400; color: var(--dl-white); letter-spacing: 4px; }
-
-        /* ── FOOTER ── */
         .erp-footer { background: var(--dl-black); color: var(--dl-silver); border-top: 1px solid var(--dl-mid); padding: 2.5rem 2rem 1.5rem; margin-top: 4rem; }
         .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; max-width: 1280px; margin: 0 auto; padding-bottom: 1.5rem; border-bottom: 1px solid var(--dl-mid); }
         .footer-brand { flex: 1; min-width: 220px; }
@@ -187,14 +80,10 @@
         .payment-icon svg { width: 100%; height: 100%; display: block; }
         .footer-credits { text-align: center; padding-top: 1.25rem; max-width: 1280px; margin: 0 auto; font-size: 0.7rem; color: var(--dl-silver); opacity: 0.6; letter-spacing: 1px; }
         @media (max-width: 768px) { .footer-content { flex-direction: column; text-align: center; } .footer-payments { text-align: center; } .payment-icons { justify-content: center; } }
-
-        /* ── INPUTS ── */
         .erp-input, .erp-label { display: block; width: 100%; }
         .erp-label { font-size: 0.7rem; font-weight: 600; color: var(--dl-silver); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 2px; }
         .erp-input { padding: 0.9rem 1.25rem; border: 1px solid var(--dl-mid); font-size: 0.95rem; background: var(--dl-black); color: var(--dl-white); transition: all 0.3s; }
         .erp-input:focus { outline: none; border-color: var(--dl-gold); box-shadow: 0 0 0 3px rgba(192, 160, 98, 0.1); }
-
-        /* ── MODO CLARO ── */
         [data-theme="light"] body { background: var(--dl-white); color: var(--dl-ink); }
         [data-theme="light"] .erp-navbar { background: rgba(245, 245, 247, 0.95); }
         [data-theme="light"] .erp-brand { color: var(--dl-ink); }
@@ -226,9 +115,6 @@
                 <a href="/accounts/logout/" class="erp-nav-link">Salir ({{ user.username|title }})</a>
             {% endif %}
 
-            <!-- Botón de Música -->
-            <button id="btn-musica" class="music-toggle" title="Reproducir/Pausar Música">▶️</button>
-            <!-- Botón de Tema -->
             <button class="theme-toggle" id="themeBtn" title="Modo claro/oscuro">🌙</button>
         </div>
     </nav>
@@ -264,11 +150,7 @@
         </div>
     </footer>
 
-    <!-- Reproductor de música oculto -->
-    <audio id="bg-music" style="display: none;"></audio>
-
     <script>
-        // 1. Lógica para el botón de Modo Claro / Oscuro
         const btn  = document.getElementById('themeBtn');
         const html = document.documentElement;
         const saved = localStorage.getItem('theme') || 'dark';
@@ -284,46 +166,6 @@
                 localStorage.setItem('theme', next);
             });
         }
-
-        // 2. Lógica del Reproductor de Música Aleatoria
-        document.addEventListener("DOMContentLoaded", function() {
-            const audio = document.getElementById('bg-music');
-            const btnMusica = document.getElementById('btn-musica');
-            const canciones = [
-                "/static/musica/flaka.mp3",
-                "/static/musica/peso.mp3"
-            ];
-            let cancionActual = -1;
-
-            function reproducirAleatoria() {
-                let nuevaCancion;
-                do {
-                    nuevaCancion = Math.floor(Math.random() * canciones.length);
-                } while (nuevaCancion === cancionActual && canciones.length > 1);
-
-                cancionActual = nuevaCancion;
-                audio.src = canciones[cancionActual];
-                audio.play().catch(e => console.log("Error al reproducir:", e));
-            }
-
-            if (btnMusica) {
-                btnMusica.addEventListener('click', () => {
-                    if (audio.paused) {
-                        if (cancionActual === -1) { 
-                            reproducirAleatoria(); 
-                        } else { 
-                            audio.play(); 
-                        }
-                        btnMusica.textContent = '⏸️';
-                    } else {
-                        audio.pause();
-                        btnMusica.textContent = '▶️';
-                    }
-                });
-            }
-
-            audio.addEventListener('ended', reproducirAleatoria);
-        });
     </script>
 </body>
 </html>
