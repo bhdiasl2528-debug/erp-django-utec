@@ -15,7 +15,6 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
-# Application definition
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -25,8 +24,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    
-    # Terceros
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -34,8 +31,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'whitenoise.runserver_nostatic',
-    
-    # Apps del ERP
     'clientes',
     'proveedores',
     'productos',
@@ -97,7 +92,6 @@ TIME_ZONE = 'America/Mexico_City'
 USE_I18N = True
 USE_TZ = True
 
-# Archivos estáticos (CSS, JS, Música)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
@@ -110,16 +104,6 @@ if 'test' in sys.argv:
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-    REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ],
-}
-
-# Archivos Media (Fotos de productos)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -131,11 +115,19 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# --- ARREGLOS PARA LOS TESTS DE W09 Y W10 ---
 LOGIN_REDIRECT_URL = '/productos/'
 LOGOUT_REDIRECT_URL = '/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
 }
+
+# ── STRIPE (W14) ──────────────────────────────────────────────
+STRIPE_SECRET_KEY      = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_placeholder')
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_placeholder')
+STRIPE_WEBHOOK_SECRET  = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_placeholder')

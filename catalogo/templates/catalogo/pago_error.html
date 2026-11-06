@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Error en el pago{% endblock %}
+{% block content %}
+<div style="display:flex;justify-content:center;align-items:center;min-height:60vh;">
+    <div class="erp-card" style="max-width:480px;text-align:center; background:#111; border:1px solid #333;">
+        <div style="font-size:4rem;margin-bottom:1rem;">❌</div>
+        <h2 style="font-family:'Bebas Neue',sans-serif; color:#ff3b30;margin:0 0 .5rem; font-size:2.5rem; letter-spacing:2px;">Error en el pago</h2>
+        <p style="color:#aaa;margin-bottom:1.5rem;">No pudimos procesar tu pago. Tu carrito sigue intacto — puedes intentarlo de nuevo.</p>
+        <div class="erp-alert-danger" style="margin-bottom:1.5rem; text-align:left; background:rgba(255,59,48,0.1); border-left:3px solid #ff3b30; padding:1rem; color:#fff;">
+            <strong>Posibles causas:</strong>
+            <ul style="margin:.5rem 0 0;padding-left:1.2rem;font-size:.9rem; color:#aaa;">
+                <li>Fondos insuficientes en la tarjeta</li>
+                <li>Datos de tarjeta incorrectos</li>
+                <li>Tarjeta bloqueada por el banco</li>
+            </ul>
+        </div>
+        <div class="d-flex gap-2 justify-content-center">
+            <a href="{% url 'catalogo:carrito' %}" class="btn-erp-primary">← Volver al carrito</a>
+            <a href="{% url 'catalogo:checkout' %}" class="btn-erp-gold">Reintentar pago</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

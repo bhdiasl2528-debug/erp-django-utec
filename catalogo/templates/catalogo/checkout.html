@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Checkout · Proceso de pago{% endblock %}
+
+{% block content %}
+<div class="erp-page-title">
+    <h2>💳 Proceso de pago</h2>
+    <a href="{% url 'catalogo:carrito' %}" class="btn-erp-primary ms-auto">← Volver al carrito</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="erp-card">
+            <div class="erp-card-header">🛍️ Resumen de tu pedido</div>
+            <table style="width:100%;border-collapse:collapse;margin-top:.5rem;">
+                {% for item in items %}
+                <tr>
+                    <td style="padding:.4rem 0;font-size:.9rem;">{{ item.nombre }} <span style="color:var(--clr-muted);font-size:.82rem;">× {{ item.cantidad }}</span></td>
+                    <td style="text-align:right;font-weight:600;font-size:.9rem;padding:.4rem 0;">${{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+                <tr style="border-top:1px solid var(--clr-border);">
+                    <td style="padding:.5rem 0;color:var(--clr-muted);font-size:.88rem;">Subtotal</td>
+                    <td style="text-align:right;color:var(--clr-muted);font-size:.88rem;">${{ totales.subtotal }}</td>
+                </tr>
+                <tr>
+                    <td style="padding:.3rem 0;color:var(--clr-muted);font-size:.88rem;">IVA ({{ totales.iva_pct }}%)</td>
+                    <td style="text-align:right;color:var(--clr-muted);font-size:.88rem;">${{ totales.iva_monto }}</td>
+                </tr>
+                <tr style="border-top:2px solid #C0A062;">
+                    <td style="padding:.6rem 0;font-weight:700;font-size:1rem;">TOTAL</td>
+                    <td style="text-align:right;font-weight:700;font-size:1.2rem;color:#C0A062;">${{ totales.total }}</td>
+                </tr>
+            </table>
+        </div>
+        {% if pedido %}
+        <div class="erp-alert-info" style="margin-top:1rem;">
+            <strong>Pedido creado:</strong> {{ pedido.numero_pedido }}<br>
+            <small style="color:var(--clr-muted);">Completa el pago para confirmar tu pedido.</small>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-7">
+        <div class="erp-card">
+            <div class="erp-card-header">🔒 Datos de pago</div>
+            {% if client_secret %}
+            <p style="color:var(--clr-muted);font-size:.85rem;margin-bottom:1rem;">Tus datos de pago son procesados de forma segura por Stripe.</p>
+            <div class="mb-4">
+                <label class="erp-label">Número de tarjeta</label>
+                <div id="card-element" style="background:#000; border:1px solid #333; padding:12px; border-radius:6px;"></div>
+                <div id="card-errors" role="alert" style="color:#ff3b30; font-size:0.85rem; margin-top:5px;"></div>
+            </div>
+            <button id="submit-btn" class="btn-erp-gold" style="width:100%;padding:.6rem;font-size:1rem;">🔐 Confirmar pago de ${{ totales.total }}</button>
+            <p style="text-align:center;margin-top:.75rem;color:var(--clr-muted);font-size:.78rem;">Tarjeta de prueba: <code>4242 4242 4242 4242</code> · cualquier fecha futura · cualquier CVC</p>
+            {% else %}
+            <p style="margin-bottom:1.5rem;color:var(--clr-muted);">Haz clic en "Proceder al pago" para generar tu pedido e introducir los datos de tu tarjeta.</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-erp-gold" style="width:100%;padding:.6rem;font-size:1rem;">Proceder al pago →</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if client_secret %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+(function () {
+    'use strict';
+    const stripe = Stripe('{{ publishable_key }}');
+    const elements = stripe.elements();
+    const clientSecret = '{{ client_secret }}';
+    const card = elements.create('card', {
+        style: {
+            base: { fontFamily: "'Inter', sans-serif", fontSize: '15px', color: '#fff', '::placeholder': { color: '#888' } },
+            invalid: { color: '#ff3b30' },
+        },
+    });
+    card.mount('#card-element');
+    card.on('change', function (event) {
+        document.getElementById('card-errors').textContent = event.error ? event.error.message : '';
+    });
+    const btn = document.getElementById('submit-btn');
+    btn.addEventListener('click', async function () {
+        btn.disabled = true;
+        btn.textContent = '⏳ Procesando…';
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, { payment_method: { card: card } });
+        if (error) {
+            document.getElementById('card-errors').textContent = error.message;
+            btn.disabled = false;
+            btn.textContent = '🔐 Confirmar pago de ${{ totales.total }}';
+        } else if (paymentIntent.status === 'succeeded') {
+            window.location.href = `/catalogo/pago-exitoso/{{ pedido.pk }}/`;
+        }
+    });
+})();
+</script>
+{% endif %}
+{% endblock %}
