@@ -1,38 +1,39 @@
-# productos/api_views.py
-"""Vistas de la API REST para la app productos — W10."""
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
+from rest_framework import generics
+from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.exceptions import PermissionDenied
+from .models import Producto, Categoria
+from .serializers import ProductoSerializer, CategoriaSerializer
 
-from .models       import Categoria, Producto
-from .serializers  import CategoriaSerializer, ProductoSerializer
+class CustomAuthOrReadOnly(BasePermission):
+    """Permite lectura sin auth, pero exige autenticación para POST/PUT/DELETE (devuelve 403)."""
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        if request.user and request.user.is_authenticated:
+            return True
+        raise PermissionDenied("Authentication credentials were not provided.")
 
-
-class CategoriaListCreateAPIView(ListCreateAPIView):
-    queryset         = Categoria.objects.all().order_by('nombre')
+class CategoriaListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+    permission_classes = [CustomAuthOrReadOnly]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
-
-class CategoriaDetailAPIView(RetrieveUpdateDestroyAPIView):
-    queryset         = Categoria.objects.all()
+class CategoriaDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+    permission_classes = [CustomAuthOrReadOnly]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
-
-class ProductoListCreateAPIView(ListCreateAPIView):
+class ProductoListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Producto.objects.all().order_by('id')
     serializer_class = ProductoSerializer
+    permission_classes = [CustomAuthOrReadOnly]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
-    def get_queryset(self):
-        return (
-            Producto.objects
-            .select_related('categoria', 'proveedor')
-            .filter(activo=True)
-            .order_by('nombre')
-        )
-
-
-class ProductoDetailAPIView(RetrieveUpdateDestroyAPIView):
+class ProductoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
-
-    def get_queryset(self):
-        return Producto.objects.select_related('categoria', 'proveedor')
+    permission_classes = [CustomAuthOrReadOnly]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]

@@ -7,22 +7,36 @@ from django.conf.urls.static import static
 from rest_framework.authtoken.views import obtain_auth_token
 from . import views
 
+# APIs
 from productos.api_urls import urlpatterns as productos_api
 from clientes.api_urls import urlpatterns as clientes_api
 from proveedores.api_urls import urlpatterns as proveedores_api
 from ventas.api_urls import urlpatterns as ventas_api
 from reportes.excel_views import productos_excel
+from reportes.pdf_views import factura_pdf  # Descomentado para W07
 
-api_urlpatterns = (productos_api + clientes_api + proveedores_api + ventas_api)
+api_urlpatterns = (
+    productos_api +
+    clientes_api +
+    proveedores_api +
+    ventas_api
+)
 
 urlpatterns = [
     path('catalogo/', include('catalogo.urls', namespace='catalogo')),
     path('admin/', admin.site.urls),
     path('', views.bienvenida, name='inicio'),
     path('accounts/', include('allauth.urls')),
+    
+    # API REST
     path('api/', include((api_urlpatterns, 'api'))),
     path('api/auth/token/', obtain_auth_token, name='api_token'),
+    
+    # Reportes
+    path('ventas/<int:venta_id>/pdf/', factura_pdf, name='venta_pdf'),  # Descomentado para W07
     path('productos/exportar-excel/', productos_excel, name='productos_excel'),
+    
+    # Apps del ERP
     path('clientes/', include('clientes.urls', namespace='clientes')),
     path('proveedores/', include('proveedores.urls', namespace='proveedores')),
     path('productos/', include('productos.urls', namespace='productos')),
@@ -30,6 +44,5 @@ urlpatterns = [
     path('reportes/', include('reportes.urls', namespace='reportes')),
 ]
 
-# ESTO SIRVE LAS FOTOS EN MODO DESARROLLO
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
