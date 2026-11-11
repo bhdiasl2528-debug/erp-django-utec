@@ -58,10 +58,21 @@ def _manejar_pago_fallido(payment_intent):
         pedido.save(update_fields=['estado'])
 
 def _extraer_pedido_id(payment_intent):
-    pedido_id = payment_intent.get('metadata', {}).get('pedido_id')
-    if not pedido_id: return None
-    try: return int(pedido_id)
-    except (ValueError, TypeError): return None
+    """Extrae el pedido_id del metadata del PaymentIntent."""
+    try:
+        # Convertimos el objeto de Stripe a diccionario si es necesario
+        pi_dict = payment_intent.to_dict() if hasattr(payment_intent, 'to_dict') else payment_intent
+        pedido_id = pi_dict.get('metadata', {}).get('pedido_id')
+    except Exception as e:
+        logger.error(f'Error al leer metadata de Stripe: {e}')
+        return None
+        
+    if not pedido_id:
+        return None
+    try:
+        return int(pedido_id)
+    except (ValueError, TypeError):
+        return None
 
 def _descontar_stock(pedido):
     for item in pedido.items_snapshot or []:

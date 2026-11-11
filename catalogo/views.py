@@ -102,7 +102,6 @@ def vaciar_carrito(request):
         messages.info(request, 'Carrito vaciado.')
     return redirect('catalogo:carrito')
 
-# ── W14: CHECKOUT ──
 @login_required
 def checkout(request):
     carrito = _obtener_carrito(request)
@@ -118,9 +117,22 @@ def checkout(request):
         try:
             cliente = obtener_o_crear_cliente(request.user)
             numero = generar_numero_pedido()
+            
+            # ── Guardar el snapshot del carrito ──
+            snapshot = [
+                {
+                    'producto_id': int(prod_id),
+                    'nombre':      datos['nombre'],
+                    'cantidad':    int(datos['cantidad']),
+                    'precio':      datos['precio'],
+                }
+                for prod_id, datos in carrito.items()
+            ]
+            
             pedido = Pedido.objects.create(
                 numero_pedido=numero, cliente=cliente,
                 estado='pendiente', total_pagado=totales['total'],
+                items_snapshot=snapshot,
             )
             monto_centavos = int(totales['total'] * 100)
             intent = stripe.PaymentIntent.create(

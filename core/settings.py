@@ -9,11 +9,23 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ── LEER EL ARCHIVO .ENV ──
+if os.path.exists(os.path.join(BASE_DIR, '.env')):
+    with open(os.path.join(BASE_DIR, '.env')) as f:
+        for line in f:
+            if line.strip() and not line.startswith('#'):
+                key, value = line.strip().split('=', 1)
+                os.environ[key] = value
+
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-tu-clave-local-aqui')
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
+
+# Arreglo para que funcione el login en Render (CSRF)
+CSRF_TRUSTED_ORIGINS = ['https://erp-django-utec-y4xg.onrender.com']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -127,7 +139,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-# ── STRIPE (W14) ──────────────────────────────────────────────
+# ── STRIPE (W14 / W15) ──────────────────────────────────────────────
 STRIPE_SECRET_KEY      = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_placeholder')
 STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_placeholder')
 STRIPE_WEBHOOK_SECRET  = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_placeholder')
