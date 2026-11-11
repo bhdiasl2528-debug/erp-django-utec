@@ -140,6 +140,7 @@ REST_FRAMEWORK = {
 }
 
 # ── STRIPE (W14 / W15) ──────────────────────────────────────────────
-STRIPE_SECRET_KEY      = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_placeholder')
-STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_placeholder')
-STRIPE_WEBHOOK_SECRET  = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_placeholder')
+# .strip() elimina espacios en blanco o saltos de línea al inicio/final
+STRIPE_SECRET_KEY      = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_placeholder').strip()
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_placeholder').strip()
+STRIPE_WEBHOOK_SECRET  = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_placeholder').strip()
