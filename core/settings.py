@@ -22,7 +22,6 @@ if os.path.exists(os.path.join(BASE_DIR, '.env')):
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-tu-clave-local-aqui')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-
 ALLOWED_HOSTS = ['*']
 
 # Arreglo para que funcione el login en Render (CSRF)
@@ -46,7 +45,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
-    # 'whitenoise.runserver_nostatic',  <-- ELIMINADO
     'clientes',
     'proveedores',
     'productos',
@@ -58,7 +56,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',  <-- ELIMINADO
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
