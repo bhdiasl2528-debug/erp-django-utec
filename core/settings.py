@@ -59,7 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # Desactivado temporalmente
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -116,10 +116,11 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # Desactivado temporalmente
 if 'test' in sys.argv:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 else:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage' # Usando el de Django por defecto
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
