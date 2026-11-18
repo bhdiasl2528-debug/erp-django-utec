@@ -1,0 +1,114 @@
+
+-----
+
+WeasyPrint could not import some external libraries. Please carefully follow the installation steps before reporting an issue:
+https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation
+https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#troubleshooting 
+
+-----
+
+Advertencia: WeasyPrint no está instalado o le faltan librerías. Los PDFs no funcionarán en local.
+[
+{
+    "model": "productos.categoria",
+    "pk": 1,
+    "fields": {
+        "nombre": "Electrónica",
+        "descripcion": ""
+    }
+},
+{
+    "model": "productos.categoria",
+    "pk": 2,
+    "fields": {
+        "nombre": "Sneakers",
+        "descripcion": ""
+    }
+},
+{
+    "model": "productos.categoria",
+    "pk": 3,
+    "fields": {
+        "nombre": "Formal",
+        "descripcion": ""
+    }
+},
+{
+    "model": "productos.categoria",
+    "pk": 4,
+    "fields": {
+        "nombre": "Deportivo",
+        "descripcion": ""
+    }
+},
+{
+    "model": "productos.producto",
+    "pk": 7,
+    "fields": {
+        "nombre": "MCqueen Graffiti",
+        "precio": "10000.00",
+        "stock": 50,
+        "categoria": 2,
+        "proveedor": null,
+        "activo": true,
+        "imagen": "productos/MCC.jpg",
+        "creado": "2026-10-29T00:45:05.781Z"
+    }
+},
+{
+    "model": "productos.producto",
+    "pk": 8,
+    "fields": {
+        "nombre": "VaporMax",
+        "precio": "5000.00",
+        "stock": 20,
+        "categoria": 2,
+        "proveedor": null,
+        "activo": true,
+        "imagen": "productos/VP.jpg",
+        "creado": "2026-10-29T00:50:25.258Z"
+    }
+},
+{
+    "model": "productos.producto",
+    "pk": 9,
+    "fields": {
+        "nombre": "Christian Louboutin Suela Roja",
+        "precio": "30000.00",
+        "stock": 30,
+        "categoria": 2,
+        "proveedor": null,
+        "activo": true,
+        "imagen": "productos/SUELAS.jpg",
+        "creado": "2026-10-29T00:53:57.143Z"
+    }
+},
+{
+    "model": "productos.producto",
+    "pk": 10,
+    "fields": {
+        "nombre": "Crocs Rayo MCqueen",
+        "precio": "4500.00",
+        "stock": 40,
+        "categoria": 4,
+        "proveedor": null,
+        "activo": true,
+        "imagen": "productos/MCQUE.jpg",
+        "creado": "2026-10-29T00:56:13.463Z"
+    }
+},
+{
+    "model": "productos.producto",
+    "pk": 11,
+    "fields": {
+        "nombre": "Nike Mind 001",
+        "precio": "2100.00",
+        "stock": 28,
+        "categoria": 4,
+        "proveedor": null,
+        "activo": true,
+        "imagen": "productos/MIND.jpg",
+        "creado": "2026-10-29T00:58:50.841Z"
+    }
+}
+]

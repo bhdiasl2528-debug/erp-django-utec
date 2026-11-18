@@ -6,6 +6,9 @@ from pathlib import Path
 import os
 import sys
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -140,7 +145,14 @@ REST_FRAMEWORK = {
 }
 
 # ── STRIPE (W14 / W15) ──────────────────────────────────────────────
-# .strip() elimina espacios en blanco o saltos de línea al inicio/final
 STRIPE_SECRET_KEY      = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_placeholder').strip()
 STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_placeholder').strip()
 STRIPE_WEBHOOK_SECRET  = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_placeholder').strip()
+
+# ── CLOUDINARY (Almacenamiento de imágenes en la nube) ──
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'zl1vxeae',
+    'API_KEY': '842798187986568',
+    'API_SECRET': 'UH_lKVIztfIuNK34bftnUy3cKTE',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
