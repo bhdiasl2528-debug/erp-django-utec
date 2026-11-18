@@ -24,7 +24,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-tu-clave-local-aqui')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
-# Arreglo para que funcione el login en Render (CSRF)
 CSRF_TRUSTED_ORIGINS = ['https://erp-django-utec-y4xg.onrender.com']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -106,13 +105,13 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+# ¡OJO! STATICFILES_DIRS ahora solo apunta a catalogo/static
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
     BASE_DIR / 'catalogo' / 'static',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Usamos el storage por defecto de Django (sin compresión)
+# Forzar storage por defecto de Django (SIN WhiteNoise)
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 MEDIA_URL = '/media/'
