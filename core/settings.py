@@ -107,13 +107,13 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+# SOLO catalogo/static. Nada de static en la raíz.
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
     BASE_DIR / 'catalogo' / 'static',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ¡ESTA ES LA LÍNEA CORRECTA! WhiteNoise sin manifest.
+# Usamos WhiteNoise con compresión
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
