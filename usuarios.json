@@ -1,0 +1,30 @@
+
+-----
+
+WeasyPrint could not import some external libraries. Please carefully follow the installation steps before reporting an issue:
+https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation
+https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#troubleshooting 
+
+-----
+
+Advertencia: WeasyPrint no está instalado o le faltan librerías. Los PDFs no funcionarán en local.
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$pYBCgRcuHHiGQd8GnZtg9A$5W3ae26WI2O0trXwEKxJXUWuTzS253yn+uyNXzkQ5II=",
+        "last_login": "2026-11-10T00:25:26.021Z",
+        "is_superuser": true,
+        "username": "Brandon",
+        "first_name": "",
+        "last_name": "",
+        "email": "bh.diasl.2528@cbtis198.edu.mx",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-10-17T00:04:13.229Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

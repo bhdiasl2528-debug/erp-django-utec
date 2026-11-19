@@ -105,12 +105,14 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+# Aquí restauramos la carpeta static raíz para que cargue el CSS
 STATICFILES_DIRS = [
+    BASE_DIR / 'static',
     BASE_DIR / 'catalogo' / 'static',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ¡ESTA ES LA LÍNEA CLAVE! Usamos el storage por defecto de Django.
+# Sin WhiteNoise
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 MEDIA_URL = '/media/'
