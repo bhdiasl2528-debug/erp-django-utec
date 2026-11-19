@@ -113,8 +113,8 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ¡ESTA ES LA LÍNEA MÁGICA! Usamos el storage por defecto de Django, sin compresión.
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+# ¡ESTA ES LA LÍNEA CORRECTA! WhiteNoise sin manifest.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
