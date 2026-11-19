@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
+    'whitenoise.runserver_nostatic', # <-- WhiteNoise
     'clientes',
     'proveedores',
     'productos',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # <-- WhiteNoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -105,15 +107,14 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-# Aquí restauramos la carpeta static raíz para que cargue el CSS
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'catalogo' / 'static',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Sin WhiteNoise
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+# ¡AQUÍ ESTÁ LA MAGIA! Usamos CompressedStaticFilesStorage, NO el Manifest
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
