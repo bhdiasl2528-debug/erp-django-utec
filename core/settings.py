@@ -105,13 +105,12 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-# ¡OJO! STATICFILES_DIRS ahora solo apunta a catalogo/static
 STATICFILES_DIRS = [
     BASE_DIR / 'catalogo' / 'static',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Forzar storage por defecto de Django (SIN WhiteNoise)
+# ¡ESTA ES LA LÍNEA CLAVE! Usamos el storage por defecto de Django.
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 MEDIA_URL = '/media/'
@@ -137,12 +136,12 @@ REST_FRAMEWORK = {
     ],
 }
 
-# ── STRIPE (W14 / W15) ──────────────────────────────────────────────
+# ── STRIPE ──
 STRIPE_SECRET_KEY      = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_placeholder').strip()
 STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_placeholder').strip()
 STRIPE_WEBHOOK_SECRET  = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_placeholder').strip()
 
-# ── CLOUDINARY (Almacenamiento de imágenes en la nube) ──
+# ── CLOUDINARY ──
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'zl1vxeae',
     'API_KEY': '842798187986568',
