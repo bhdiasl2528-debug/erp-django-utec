@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
-    'whitenoise.runserver_nostatic', # <-- WhiteNoise
+    'whitenoise.runserver_nostatic',
     'clientes',
     'proveedores',
     'productos',
@@ -56,7 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # <-- WhiteNoise
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -113,8 +113,8 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ¡AQUÍ ESTÁ LA MAGIA! Usamos CompressedStaticFilesStorage, NO el Manifest
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# ¡ESTA ES LA LÍNEA MÁGICA! Usamos el storage por defecto de Django, sin compresión.
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
