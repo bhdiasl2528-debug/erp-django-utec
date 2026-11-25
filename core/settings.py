@@ -107,13 +107,11 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-# SOLO catalogo/static. Nada de static en la raíz.
 STATICFILES_DIRS = [
     BASE_DIR / 'catalogo' / 'static',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Usamos WhiteNoise con compresión
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
@@ -151,3 +149,26 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'UH_lKVIztfIuNK34bftnUy3cKTE',
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# ── CELERY (W16) ──
+REDIS_URL = os.environ.get('REDIS_URL', '')
+
+if REDIS_URL:
+    CELERY_BROKER_URL     = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
+    CELERY_TASK_ALWAYS_EAGER = False
+else:
+    CELERY_BROKER_URL        = 'memory://'
+    CELERY_RESULT_BACKEND    = 'cache+memory://'
+    CELERY_TASK_ALWAYS_EAGER = True
+
+CELERY_RESULT_EXPIRES = 3600
+CELERY_ACCEPT_CONTENT    = ['json']
+CELERY_TASK_SERIALIZER   = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_TASK_SOFT_TIME_LIMIT = 300
+CELERY_TASK_TIME_LIMIT       = 360
+CELERY_TASK_DEFAULT_QUEUE = 'erp_django'
+CELERY_TASK_EAGER_PROPAGATES = True

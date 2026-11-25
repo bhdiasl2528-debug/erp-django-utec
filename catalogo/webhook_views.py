@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from productos.models import Producto
 from ventas.models import Pedido
+from ventas.tasks import enviar_confirmacion_pedido
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,11 @@ def _manejar_pago_exitoso(payment_intent):
         pedido.save(update_fields=['estado'])
         _descontar_stock(pedido)
 
+        try:
+            enviar_confirmacion_pedido.delay(pedido.pk)
+        except Exception:
+            logger.exception(f'Webhook: no se pudo encolar la confirmación del pedido {pedido.numero_pedido} (¿Redis disponible?).')
+
 def _manejar_pago_fallido(payment_intent):
     pedido_id = _extraer_pedido_id(payment_intent)
     if pedido_id is None: return
@@ -58,15 +64,12 @@ def _manejar_pago_fallido(payment_intent):
         pedido.save(update_fields=['estado'])
 
 def _extraer_pedido_id(payment_intent):
-    """Extrae el pedido_id del metadata del PaymentIntent."""
     try:
-        # Convertimos el objeto de Stripe a diccionario si es necesario
         pi_dict = payment_intent.to_dict() if hasattr(payment_intent, 'to_dict') else payment_intent
         pedido_id = pi_dict.get('metadata', {}).get('pedido_id')
     except Exception as e:
         logger.error(f'Error al leer metadata de Stripe: {e}')
         return None
-        
     if not pedido_id:
         return None
     try:
