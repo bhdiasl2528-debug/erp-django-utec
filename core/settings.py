@@ -107,7 +107,12 @@ USE_TZ        = True
 STATIC_URL  = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# En desarrollo usamos el storage SIN manifest (no requiere collectstatic
+# para que Jazzmin, admin y templates funcionen).
+# En producción (core/settings_prod.py) se sobrescribe con
+# CompressedManifestStaticFilesStorage (WhiteNoise sirve con hash).
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 # ── Archivos media ────────────────────────────────────────────────────────
