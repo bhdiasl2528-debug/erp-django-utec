@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-set -o errexit
+# start.sh — Inicia Celery (Worker + Beat) y Gunicorn en Render
 
-pip install -r requirements.txt
-python manage.py collectstatic --no-input --clear
-python manage.py migrate
-python manage.py loaddata productos.json || true
-python manage.py loaddata usuarios.json || true
+
+# El disco en Render es efímero, así que el archivo de control de Beat va a /tmp
+celery -A core worker -l info --pool=solo --beat --schedule=/tmp/celerybeat-schedule &
+
+
+# Inicia Gunicorn (la página web)
+gunicorn core.wsgi:application

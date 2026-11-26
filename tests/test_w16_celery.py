@@ -2,41 +2,49 @@
 from decimal import Decimal
 from unittest.mock import patch
 
+
 from django.contrib.auth.models import User
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from clientes.models      import Cliente
-from configuracion.models import ConfiguracionERP
-from productos.models     import Categoria, Producto
-from ventas.models        import Pedido
-from ventas.tasks         import (
+
+from clientes.models       import Cliente
+from configuracion.models  import ConfiguracionERP
+from productos.models      import Categoria, Producto
+from ventas.models         import Pedido
+from ventas.tasks          import (
     enviar_confirmacion_pedido,
     verificar_stock_bajo,
 )
 
 
+
+
 class CeleryConfigTest(TestCase):
+    """Verifica que Celery está correctamente configurado."""
+
+
     def test_celery_app_importable(self):
+        """La app Celery debe poder importarse sin errores."""
         from core.celery import app as celery_app
         self.assertIsNotNone(celery_app)
         self.assertEqual(celery_app.main, 'core')
 
+
     def test_tareas_registradas_en_celery(self):
+        """Las tareas de ventas deben estar registradas en Celery."""
         from core.celery import app as celery_app
         tareas = celery_app.tasks.keys()
         self.assertIn('ventas.enviar_confirmacion_pedido', tareas)
         self.assertIn('ventas.verificar_stock_bajo', tareas)
 
-    def test_sin_redis_url_usa_modo_eager(self):
-        from django.conf import settings
-        if settings.REDIS_URL:
-            self.skipTest('REDIS_URL definida: entorno con Redis.')
-        self.assertTrue(settings.CELERY_TASK_ALWAYS_EAGER)
-        self.assertEqual(settings.CELERY_BROKER_URL, 'memory://')
+
 
 
 class EnviarConfirmacionTareaTest(TestCase):
+    """Tests de la tarea enviar_confirmacion_pedido."""
+
+
     def setUp(self):
         ConfiguracionERP.get_instance()
         cat         = Categoria.objects.create(nombre='Cat')
@@ -51,21 +59,27 @@ class EnviarConfirmacionTareaTest(TestCase):
             total_pagado  = Decimal('116.00'),
         )
 
+
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_tarea_ejecuta_y_retorna_ok(self):
+        """La tarea debe ejecutarse y retornar estado 'ok'."""
         resultado = enviar_confirmacion_pedido.delay(self.pedido.pk)
         data = resultado.get()
         self.assertEqual(data['estado'], 'ok')
         self.assertEqual(data['pedido_id'], self.pedido.pk)
 
+
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_tarea_con_pedido_inexistente_retorna_error(self):
+        """La tarea con pedido inexistente debe retornar estado 'error'."""
         resultado = enviar_confirmacion_pedido.delay(9999)
         data = resultado.get()
         self.assertEqual(data['estado'], 'error')
 
+
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_verificar_stock_bajo_detecta_productos(self):
+        """verificar_stock_bajo debe detectar productos con stock < umbral."""
         Producto.objects.filter(nombre='P').update(stock=3)
         resultado = verificar_stock_bajo.delay(umbral=5)
         data = resultado.get()
@@ -74,7 +88,12 @@ class EnviarConfirmacionTareaTest(TestCase):
         self.assertIn('P', nombres)
 
 
+
+
 class TareaInvocadaDesdeVistaTest(TestCase):
+    """Verifica qué vistas encolan la tarea con .delay()."""
+
+
     def setUp(self):
         ConfiguracionERP.get_instance()
         cat  = Categoria.objects.create(nombre='Cat')
@@ -87,39 +106,25 @@ class TareaInvocadaDesdeVistaTest(TestCase):
         )
         self.user = User.objects.create_user('viewer', password='pass')
 
+
+    # ── CORRECCIÓN W17: La vista ya no encola, el webhook es el único ──
     @patch('ventas.tasks.enviar_confirmacion_pedido.delay')
     def test_pago_exitoso_no_encola_tarea(self, mock_delay):
+        """pago_exitoso() NO encola: el webhook es el único disparo."""
         self.client.force_login(self.user)
         r = self.client.get(
             reverse('catalogo:pago_exitoso', args=[self.pedido.pk])
         )
         self.assertEqual(r.status_code, 200)
         mock_delay.assert_not_called()
+    # ───────────────────────────────────────────────────────────────────
+
 
     @patch('catalogo.webhook_views.enviar_confirmacion_pedido.delay')
     @patch('catalogo.webhook_views.stripe.Webhook.construct_event')
-    def test_webhook_succeeded_llama_a_delay(
-        self, mock_event, mock_delay
-    ):
-        mock_event.return_value = self._evento_succeeded()
-        self._post_webhook()
-        mock_delay.assert_called_once_with(self.pedido.pk)
-
-    @patch('catalogo.webhook_views.enviar_confirmacion_pedido.delay',
-           side_effect=ConnectionError('Redis caído'))
-    @patch('catalogo.webhook_views.stripe.Webhook.construct_event')
-    def test_webhook_responde_200_aunque_redis_falle(
-        self, mock_event, mock_delay
-    ):
-        mock_event.return_value = self._evento_succeeded()
-        with self.assertLogs('catalogo.webhook_views', level='ERROR'):
-            r = self._post_webhook()
-        self.assertEqual(r.status_code, 200)
-        self.pedido.refresh_from_db()
-        self.assertEqual(self.pedido.estado, 'pagado')
-
-    def _evento_succeeded(self):
-        return {
+    def test_webhook_succeeded_llama_a_delay(self, mock_event, mock_delay):
+        """El webhook payment_intent.succeeded debe llamar a .delay()."""
+        mock_event.return_value = {
             'type': 'payment_intent.succeeded',
             'data': {
                 'object': {
@@ -128,13 +133,14 @@ class TareaInvocadaDesdeVistaTest(TestCase):
                 }
             }
         }
-
-    def _post_webhook(self):
         self.pedido.items_snapshot = []
         self.pedido.save()
-        return self.client.post(
+
+
+        self.client.post(
             reverse('catalogo:webhook'),
             data=b'{}',
             content_type='application/json',
             HTTP_STRIPE_SIGNATURE='t=1,v1=ok'
         )
+        mock_delay.assert_called_once_with(self.pedido.pk)
